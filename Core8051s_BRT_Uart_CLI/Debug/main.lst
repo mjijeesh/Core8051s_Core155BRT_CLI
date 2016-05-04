@@ -1,0 +1,756 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : FreeWare ANSI-C Compiler
+                              3 ; Version 2.6.3 #4543 (Dec 31 2006)
+                              4 ; This file generated Wed May 04 10:48:17 2016
+                              5 ;--------------------------------------------------------
+                              6 	.module ___main
+                              7 	.optsdcc -mmcs51 --model-large
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _main
+                             13 	.globl _g_wd
+                             14 	.globl _g_gpio
+                             15 	.globl _rx_char_ptr
+                             16 	.globl _rx_char
+                             17 	.globl _key
+                             18 	.globl _wait
+                             19 ;--------------------------------------------------------
+                             20 ; special function registers
+                             21 ;--------------------------------------------------------
+                             22 	.area RSEG    (DATA)
+                             23 ;--------------------------------------------------------
+                             24 ; special function bits
+                             25 ;--------------------------------------------------------
+                             26 	.area RSEG    (DATA)
+                             27 ;--------------------------------------------------------
+                             28 ; overlayable register banks
+                             29 ;--------------------------------------------------------
+                             30 	.area REG_BANK_0	(REL,OVR,DATA)
+   0000                      31 	.ds 8
+                             32 ;--------------------------------------------------------
+                             33 ; internal ram data
+                             34 ;--------------------------------------------------------
+                             35 	.area DSEG    (DATA)
+                             36 ;--------------------------------------------------------
+                             37 ; overlayable items in internal ram 
+                             38 ;--------------------------------------------------------
+                             39 	.area OSEG    (OVR,DATA)
+                             40 ;--------------------------------------------------------
+                             41 ; Stack segment in internal ram 
+                             42 ;--------------------------------------------------------
+                             43 	.area	SSEG	(DATA)
+   0000                      44 __start__stack:
+   0000                      45 	.ds	1
+                             46 
+                             47 ;--------------------------------------------------------
+                             48 ; indirectly addressable internal ram data
+                             49 ;--------------------------------------------------------
+                             50 	.area ISEG    (DATA)
+                             51 ;--------------------------------------------------------
+                             52 ; absolute internal ram data
+                             53 ;--------------------------------------------------------
+                             54 	.area IABS    (ABS,DATA)
+                             55 	.area IABS    (ABS,DATA)
+                             56 ;--------------------------------------------------------
+                             57 ; bit data
+                             58 ;--------------------------------------------------------
+                             59 	.area BSEG    (BIT)
+                             60 ;--------------------------------------------------------
+                             61 ; paged external ram data
+                             62 ;--------------------------------------------------------
+                             63 	.area PSEG    (PAG,XDATA)
+                             64 ;--------------------------------------------------------
+                             65 ; external ram data
+                             66 ;--------------------------------------------------------
+                             67 	.area XSEG    (XDATA)
+                    0000     68 G$key$0$0==.
+   0000                      69 _key::
+   0000                      70 	.ds 1
+                    0001     71 G$rx_char$0$0==.
+   0001                      72 _rx_char::
+   0001                      73 	.ds 10
+                    000B     74 G$rx_char_ptr$0$0==.
+   000B                      75 _rx_char_ptr::
+   000B                      76 	.ds 3
+                    000E     77 G$g_gpio$0$0==.
+   000E                      78 _g_gpio::
+   000E                      79 	.ds 3
+                    0011     80 G$g_wd$0$0==.
+   0011                      81 _g_wd::
+   0011                      82 	.ds 2
+                    0013     83 Lmain$uart_msg$1$1==.
+   0013                      84 _main_uart_msg_1_1:
+   0013                      85 	.ds 31
+                    0032     86 Lmain$linefeed$1$1==.
+   0032                      87 _main_linefeed_1_1:
+   0032                      88 	.ds 3
+                    0035     89 Lmain$sram_addr$1$1==.
+   0035                      90 _main_sram_addr_1_1:
+   0035                      91 	.ds 2
+                    0037     92 Lmain$rx_data$2$4==.
+   0037                      93 _main_rx_data_2_4:
+   0037                      94 	.ds 2
+                    0039     95 Lwait$time_in_ms$1$1==.
+   0039                      96 _wait_time_in_ms_1_1:
+   0039                      97 	.ds 2
+                    003B     98 Lwait$i$1$1==.
+   003B                      99 _wait_i_1_1:
+   003B                     100 	.ds 2
+                            101 ;--------------------------------------------------------
+                            102 ; external initialized ram data
+                            103 ;--------------------------------------------------------
+                            104 	.area XISEG   (XDATA)
+                            105 	.area HOME    (CODE)
+                            106 	.area GSINIT0 (CODE)
+                            107 	.area GSINIT1 (CODE)
+                            108 	.area GSINIT2 (CODE)
+                            109 	.area GSINIT3 (CODE)
+                            110 	.area GSINIT4 (CODE)
+                            111 	.area GSINIT5 (CODE)
+                            112 	.area GSINIT  (CODE)
+                            113 	.area GSFINAL (CODE)
+                            114 	.area CSEG    (CODE)
+                            115 ;--------------------------------------------------------
+                            116 ; interrupt vector 
+                            117 ;--------------------------------------------------------
+                            118 	.area HOME    (CODE)
+   0000                     119 __interrupt_vect:
+   0000 02s00r00            120 	ljmp	__sdcc_gsinit_startup
+                            121 ;--------------------------------------------------------
+                            122 ; global & static initialisations
+                            123 ;--------------------------------------------------------
+                            124 	.area HOME    (CODE)
+                            125 	.area GSINIT  (CODE)
+                            126 	.area GSFINAL (CODE)
+                            127 	.area GSINIT  (CODE)
+                            128 	.globl __sdcc_gsinit_startup
+                            129 	.globl __sdcc_program_startup
+                            130 	.globl __start__stack
+                            131 	.globl __mcs51_genXINIT
+                            132 	.globl __mcs51_genXRAMCLEAR
+                            133 	.globl __mcs51_genRAMCLEAR
+                            134 	.area GSFINAL (CODE)
+   0000 02s00r03            135 	ljmp	__sdcc_program_startup
+                            136 ;--------------------------------------------------------
+                            137 ; Home
+                            138 ;--------------------------------------------------------
+                            139 	.area HOME    (CODE)
+                            140 	.area HOME    (CODE)
+   0003                     141 __sdcc_program_startup:
+   0003 12s00r00            142 	lcall	_main
+                            143 ;	return from main will lock up
+   0006 80 FE               144 	sjmp .
+                            145 ;--------------------------------------------------------
+                            146 ; code
+                            147 ;--------------------------------------------------------
+                            148 	.area CSEG    (CODE)
+                            149 ;------------------------------------------------------------
+                            150 ;Allocation info for local variables in function 'main'
+                            151 ;------------------------------------------------------------
+                            152 ;uart_msg                  Allocated with name '_main_uart_msg_1_1'
+                            153 ;linefeed                  Allocated with name '_main_linefeed_1_1'
+                            154 ;value                     Allocated with name '_main_value_1_1'
+                            155 ;testvar                   Allocated with name '_main_testvar_1_1'
+                            156 ;sram_addr                 Allocated with name '_main_sram_addr_1_1'
+                            157 ;rx_data                   Allocated with name '_main_rx_data_2_4'
+                            158 ;rx_size                   Allocated with name '_main_rx_size_2_4'
+                            159 ;------------------------------------------------------------
+                    0000    160 	G$main$0$0 ==.
+                    0000    161 	C$main.c$55$0$0 ==.
+                            162 ;	../main.c:55: int main( void )
+                            163 ;	-----------------------------------------
+                            164 ;	 function main
+                            165 ;	-----------------------------------------
+   0000                     166 _main:
+                    0002    167 	ar2 = 0x02
+                    0003    168 	ar3 = 0x03
+                    0004    169 	ar4 = 0x04
+                    0005    170 	ar5 = 0x05
+                    0006    171 	ar6 = 0x06
+                    0007    172 	ar7 = 0x07
+                    0000    173 	ar0 = 0x00
+                    0001    174 	ar1 = 0x01
+                    0000    175 	C$main.c$57$1$0 ==.
+                            176 ;	../main.c:57: const uint8_t uart_msg[] = "\n\r** Simple LED Sequence  **\n\r";
+                            177 ;	genPointerSet
+                            178 ;     genFarPointerSet
+   0000 90s00r13            179 	mov	dptr,#_main_uart_msg_1_1
+   0003 74 0A               180 	mov	a,#0x0A
+   0005 F0                  181 	movx	@dptr,a
+                            182 ;	genPointerSet
+                            183 ;     genFarPointerSet
+   0006 90s00r14            184 	mov	dptr,#(_main_uart_msg_1_1 + 0x0001)
+   0009 74 0D               185 	mov	a,#0x0D
+   000B F0                  186 	movx	@dptr,a
+                            187 ;	genPointerSet
+                            188 ;     genFarPointerSet
+   000C 90s00r15            189 	mov	dptr,#(_main_uart_msg_1_1 + 0x0002)
+   000F 74 2A               190 	mov	a,#0x2A
+   0011 F0                  191 	movx	@dptr,a
+                            192 ;	genPointerSet
+                            193 ;     genFarPointerSet
+   0012 90s00r16            194 	mov	dptr,#(_main_uart_msg_1_1 + 0x0003)
+   0015 74 2A               195 	mov	a,#0x2A
+   0017 F0                  196 	movx	@dptr,a
+                            197 ;	genPointerSet
+                            198 ;     genFarPointerSet
+   0018 90s00r17            199 	mov	dptr,#(_main_uart_msg_1_1 + 0x0004)
+   001B 74 20               200 	mov	a,#0x20
+   001D F0                  201 	movx	@dptr,a
+                            202 ;	genPointerSet
+                            203 ;     genFarPointerSet
+   001E 90s00r18            204 	mov	dptr,#(_main_uart_msg_1_1 + 0x0005)
+   0021 74 53               205 	mov	a,#0x53
+   0023 F0                  206 	movx	@dptr,a
+                            207 ;	genPointerSet
+                            208 ;     genFarPointerSet
+   0024 90s00r19            209 	mov	dptr,#(_main_uart_msg_1_1 + 0x0006)
+   0027 74 69               210 	mov	a,#0x69
+   0029 F0                  211 	movx	@dptr,a
+                            212 ;	genPointerSet
+                            213 ;     genFarPointerSet
+   002A 90s00r1A            214 	mov	dptr,#(_main_uart_msg_1_1 + 0x0007)
+   002D 74 6D               215 	mov	a,#0x6D
+   002F F0                  216 	movx	@dptr,a
+                            217 ;	genPointerSet
+                            218 ;     genFarPointerSet
+   0030 90s00r1B            219 	mov	dptr,#(_main_uart_msg_1_1 + 0x0008)
+   0033 74 70               220 	mov	a,#0x70
+   0035 F0                  221 	movx	@dptr,a
+                            222 ;	genPointerSet
+                            223 ;     genFarPointerSet
+   0036 90s00r1C            224 	mov	dptr,#(_main_uart_msg_1_1 + 0x0009)
+   0039 74 6C               225 	mov	a,#0x6C
+   003B F0                  226 	movx	@dptr,a
+                            227 ;	genPointerSet
+                            228 ;     genFarPointerSet
+   003C 90s00r1D            229 	mov	dptr,#(_main_uart_msg_1_1 + 0x000a)
+   003F 74 65               230 	mov	a,#0x65
+   0041 F0                  231 	movx	@dptr,a
+                            232 ;	genPointerSet
+                            233 ;     genFarPointerSet
+   0042 90s00r1E            234 	mov	dptr,#(_main_uart_msg_1_1 + 0x000b)
+   0045 74 20               235 	mov	a,#0x20
+   0047 F0                  236 	movx	@dptr,a
+                            237 ;	genPointerSet
+                            238 ;     genFarPointerSet
+   0048 90s00r1F            239 	mov	dptr,#(_main_uart_msg_1_1 + 0x000c)
+   004B 74 4C               240 	mov	a,#0x4C
+   004D F0                  241 	movx	@dptr,a
+                            242 ;	genPointerSet
+                            243 ;     genFarPointerSet
+   004E 90s00r20            244 	mov	dptr,#(_main_uart_msg_1_1 + 0x000d)
+   0051 74 45               245 	mov	a,#0x45
+   0053 F0                  246 	movx	@dptr,a
+                            247 ;	genPointerSet
+                            248 ;     genFarPointerSet
+   0054 90s00r21            249 	mov	dptr,#(_main_uart_msg_1_1 + 0x000e)
+   0057 74 44               250 	mov	a,#0x44
+   0059 F0                  251 	movx	@dptr,a
+                            252 ;	genPointerSet
+                            253 ;     genFarPointerSet
+   005A 90s00r22            254 	mov	dptr,#(_main_uart_msg_1_1 + 0x000f)
+   005D 74 20               255 	mov	a,#0x20
+   005F F0                  256 	movx	@dptr,a
+                            257 ;	genPointerSet
+                            258 ;     genFarPointerSet
+   0060 90s00r23            259 	mov	dptr,#(_main_uart_msg_1_1 + 0x0010)
+   0063 74 53               260 	mov	a,#0x53
+   0065 F0                  261 	movx	@dptr,a
+                            262 ;	genPointerSet
+                            263 ;     genFarPointerSet
+   0066 90s00r24            264 	mov	dptr,#(_main_uart_msg_1_1 + 0x0011)
+   0069 74 65               265 	mov	a,#0x65
+   006B F0                  266 	movx	@dptr,a
+                            267 ;	genPointerSet
+                            268 ;     genFarPointerSet
+   006C 90s00r25            269 	mov	dptr,#(_main_uart_msg_1_1 + 0x0012)
+   006F 74 71               270 	mov	a,#0x71
+   0071 F0                  271 	movx	@dptr,a
+                            272 ;	genPointerSet
+                            273 ;     genFarPointerSet
+   0072 90s00r26            274 	mov	dptr,#(_main_uart_msg_1_1 + 0x0013)
+   0075 74 75               275 	mov	a,#0x75
+   0077 F0                  276 	movx	@dptr,a
+                            277 ;	genPointerSet
+                            278 ;     genFarPointerSet
+   0078 90s00r27            279 	mov	dptr,#(_main_uart_msg_1_1 + 0x0014)
+   007B 74 65               280 	mov	a,#0x65
+   007D F0                  281 	movx	@dptr,a
+                            282 ;	genPointerSet
+                            283 ;     genFarPointerSet
+   007E 90s00r28            284 	mov	dptr,#(_main_uart_msg_1_1 + 0x0015)
+   0081 74 6E               285 	mov	a,#0x6E
+   0083 F0                  286 	movx	@dptr,a
+                            287 ;	genPointerSet
+                            288 ;     genFarPointerSet
+   0084 90s00r29            289 	mov	dptr,#(_main_uart_msg_1_1 + 0x0016)
+   0087 74 63               290 	mov	a,#0x63
+   0089 F0                  291 	movx	@dptr,a
+                            292 ;	genPointerSet
+                            293 ;     genFarPointerSet
+   008A 90s00r2A            294 	mov	dptr,#(_main_uart_msg_1_1 + 0x0017)
+   008D 74 65               295 	mov	a,#0x65
+   008F F0                  296 	movx	@dptr,a
+                            297 ;	genPointerSet
+                            298 ;     genFarPointerSet
+   0090 90s00r2B            299 	mov	dptr,#(_main_uart_msg_1_1 + 0x0018)
+   0093 74 20               300 	mov	a,#0x20
+   0095 F0                  301 	movx	@dptr,a
+                            302 ;	genPointerSet
+                            303 ;     genFarPointerSet
+   0096 90s00r2C            304 	mov	dptr,#(_main_uart_msg_1_1 + 0x0019)
+   0099 74 20               305 	mov	a,#0x20
+   009B F0                  306 	movx	@dptr,a
+                            307 ;	genPointerSet
+                            308 ;     genFarPointerSet
+   009C 90s00r2D            309 	mov	dptr,#(_main_uart_msg_1_1 + 0x001a)
+   009F 74 2A               310 	mov	a,#0x2A
+   00A1 F0                  311 	movx	@dptr,a
+                            312 ;	genPointerSet
+                            313 ;     genFarPointerSet
+   00A2 90s00r2E            314 	mov	dptr,#(_main_uart_msg_1_1 + 0x001b)
+   00A5 74 2A               315 	mov	a,#0x2A
+   00A7 F0                  316 	movx	@dptr,a
+                            317 ;	genPointerSet
+                            318 ;     genFarPointerSet
+   00A8 90s00r2F            319 	mov	dptr,#(_main_uart_msg_1_1 + 0x001c)
+   00AB 74 0A               320 	mov	a,#0x0A
+   00AD F0                  321 	movx	@dptr,a
+                            322 ;	genPointerSet
+                            323 ;     genFarPointerSet
+   00AE 90s00r30            324 	mov	dptr,#(_main_uart_msg_1_1 + 0x001d)
+   00B1 74 0D               325 	mov	a,#0x0D
+   00B3 F0                  326 	movx	@dptr,a
+                            327 ;	genPointerSet
+                            328 ;     genFarPointerSet
+   00B4 90s00r31            329 	mov	dptr,#(_main_uart_msg_1_1 + 0x001e)
+   00B7 74 00               330 	mov	a,#0x00
+   00B9 F0                  331 	movx	@dptr,a
+                    00BA    332 	C$main.c$58$1$0 ==.
+                            333 ;	../main.c:58: const uint8_t linefeed[] = "\n\r";
+                            334 ;	genPointerSet
+                            335 ;     genFarPointerSet
+   00BA 90s00r32            336 	mov	dptr,#_main_linefeed_1_1
+   00BD 74 0A               337 	mov	a,#0x0A
+   00BF F0                  338 	movx	@dptr,a
+                            339 ;	genPointerSet
+                            340 ;     genFarPointerSet
+   00C0 90s00r33            341 	mov	dptr,#(_main_linefeed_1_1 + 0x0001)
+   00C3 74 0D               342 	mov	a,#0x0D
+   00C5 F0                  343 	movx	@dptr,a
+                            344 ;	genPointerSet
+                            345 ;     genFarPointerSet
+   00C6 90s00r34            346 	mov	dptr,#(_main_linefeed_1_1 + 0x0002)
+   00C9 74 00               347 	mov	a,#0x00
+   00CB F0                  348 	movx	@dptr,a
+                    00CC    349 	C$main.c$65$1$1 ==.
+                            350 ;	../main.c:65: UART_init( &g_stdio_uart, APB3_BASE_ADDRESS + COREUARTAPB_0, UART_9600_BAUD, DATA_8_BITS | NO_PARITY );
+                            351 ;	genAssign
+   00CC 90s00r00            352 	mov	dptr,#_UART_init_PARM_2
+   00CF 74 00               353 	mov	a,#0x00
+   00D1 F0                  354 	movx	@dptr,a
+   00D2 A3                  355 	inc	dptr
+   00D3 74 F0               356 	mov	a,#0xF0
+   00D5 F0                  357 	movx	@dptr,a
+                            358 ;	genAssign
+   00D6 90s00r00            359 	mov	dptr,#_UART_init_PARM_3
+   00D9 74 26               360 	mov	a,#0x26
+   00DB F0                  361 	movx	@dptr,a
+   00DC E4                  362 	clr	a
+   00DD A3                  363 	inc	dptr
+   00DE F0                  364 	movx	@dptr,a
+                            365 ;	genAssign
+   00DF 90s00r00            366 	mov	dptr,#_UART_init_PARM_4
+   00E2 74 01               367 	mov	a,#0x01
+   00E4 F0                  368 	movx	@dptr,a
+                            369 ;	genCall
+   00E5 75 82r00            370 	mov	dpl,#_g_stdio_uart
+   00E8 75 83s00            371 	mov	dph,#(_g_stdio_uart >> 8)
+   00EB 75 F0 00            372 	mov	b,#0x00
+   00EE 12s00r00            373 	lcall	_UART_init
+                    00F1    374 	C$main.c$67$1$1 ==.
+                            375 ;	../main.c:67: WD_init( &g_wd, APB3_BASE_ADDRESS + COREWATCHDOG_0, WatchDog_COUNT, WD_PRESCALER_DIV_16 );
+                            376 ;	genAssign
+   00F1 90s00r00            377 	mov	dptr,#_WD_init_PARM_2
+   00F4 74 00               378 	mov	a,#0x00
+   00F6 F0                  379 	movx	@dptr,a
+   00F7 A3                  380 	inc	dptr
+   00F8 74 F3               381 	mov	a,#0xF3
+   00FA F0                  382 	movx	@dptr,a
+                            383 ;	genAssign
+   00FB 90s00r00            384 	mov	dptr,#_WD_init_PARM_3
+   00FE 74 E8               385 	mov	a,#0xE8
+   0100 F0                  386 	movx	@dptr,a
+   0101 A3                  387 	inc	dptr
+   0102 74 03               388 	mov	a,#0x03
+   0104 F0                  389 	movx	@dptr,a
+   0105 A3                  390 	inc	dptr
+   0106 74 00               391 	mov	a,#0x00
+   0108 F0                  392 	movx	@dptr,a
+   0109 A3                  393 	inc	dptr
+   010A 74 00               394 	mov	a,#0x00
+   010C F0                  395 	movx	@dptr,a
+                            396 ;	genAssign
+   010D 90s00r00            397 	mov	dptr,#_WD_init_PARM_4
+   0110 74 03               398 	mov	a,#0x03
+   0112 F0                  399 	movx	@dptr,a
+   0113 E4                  400 	clr	a
+   0114 A3                  401 	inc	dptr
+   0115 F0                  402 	movx	@dptr,a
+   0116 A3                  403 	inc	dptr
+   0117 F0                  404 	movx	@dptr,a
+   0118 A3                  405 	inc	dptr
+   0119 F0                  406 	movx	@dptr,a
+                            407 ;	genCall
+   011A 75 82r11            408 	mov	dpl,#_g_wd
+   011D 75 83s00            409 	mov	dph,#(_g_wd >> 8)
+   0120 75 F0 00            410 	mov	b,#0x00
+   0123 12s00r00            411 	lcall	_WD_init
+                    0126    412 	C$main.c$68$1$1 ==.
+                            413 ;	../main.c:68: WD_disable( &g_wd );
+                            414 ;	genCall
+   0126 75 82r11            415 	mov	dpl,#_g_wd
+   0129 75 83s00            416 	mov	dph,#(_g_wd >> 8)
+   012C 75 F0 00            417 	mov	b,#0x00
+   012F 12s00r00            418 	lcall	_WD_disable
+                    0132    419 	C$main.c$70$1$1 ==.
+                            420 ;	../main.c:70: GPIO_init( &g_gpio,	APB3_BASE_ADDRESS + COREGPIO_0, GPIO_APB_32_BITS_BUS );
+                            421 ;	genAssign
+   0132 90s00r00            422 	mov	dptr,#_GPIO_init_PARM_2
+   0135 74 00               423 	mov	a,#0x00
+   0137 F0                  424 	movx	@dptr,a
+   0138 A3                  425 	inc	dptr
+   0139 74 F1               426 	mov	a,#0xF1
+   013B F0                  427 	movx	@dptr,a
+                            428 ;	genAssign
+   013C 90s00r00            429 	mov	dptr,#_GPIO_init_PARM_3
+   013F 74 02               430 	mov	a,#0x02
+   0141 F0                  431 	movx	@dptr,a
+                            432 ;	genCall
+   0142 75 82r0E            433 	mov	dpl,#_g_gpio
+   0145 75 83s00            434 	mov	dph,#(_g_gpio >> 8)
+   0148 75 F0 00            435 	mov	b,#0x00
+   014B 12s00r00            436 	lcall	_GPIO_init
+                    014E    437 	C$main.c$74$1$1 ==.
+                            438 ;	../main.c:74: GPIO_config( &g_gpio, LED_D0, GPIO_OUTPUT_MODE );
+                            439 ;	genAssign
+   014E 90s00r00            440 	mov	dptr,#_GPIO_config_PARM_2
+   0151 74 00               441 	mov	a,#0x00
+   0153 F0                  442 	movx	@dptr,a
+                            443 ;	genAssign
+   0154 90s00r00            444 	mov	dptr,#_GPIO_config_PARM_3
+   0157 74 05               445 	mov	a,#0x05
+   0159 F0                  446 	movx	@dptr,a
+   015A E4                  447 	clr	a
+   015B A3                  448 	inc	dptr
+   015C F0                  449 	movx	@dptr,a
+   015D A3                  450 	inc	dptr
+   015E F0                  451 	movx	@dptr,a
+   015F A3                  452 	inc	dptr
+   0160 F0                  453 	movx	@dptr,a
+                            454 ;	genCall
+   0161 75 82r0E            455 	mov	dpl,#_g_gpio
+   0164 75 83s00            456 	mov	dph,#(_g_gpio >> 8)
+   0167 75 F0 00            457 	mov	b,#0x00
+   016A 12s00r00            458 	lcall	_GPIO_config
+                    016D    459 	C$main.c$76$1$1 ==.
+                            460 ;	../main.c:76: GPIO_config( &g_gpio, LED_D1, GPIO_OUTPUT_MODE );
+                            461 ;	genAssign
+   016D 90s00r00            462 	mov	dptr,#_GPIO_config_PARM_2
+   0170 74 01               463 	mov	a,#0x01
+   0172 F0                  464 	movx	@dptr,a
+                            465 ;	genAssign
+   0173 90s00r00            466 	mov	dptr,#_GPIO_config_PARM_3
+   0176 74 05               467 	mov	a,#0x05
+   0178 F0                  468 	movx	@dptr,a
+   0179 E4                  469 	clr	a
+   017A A3                  470 	inc	dptr
+   017B F0                  471 	movx	@dptr,a
+   017C A3                  472 	inc	dptr
+   017D F0                  473 	movx	@dptr,a
+   017E A3                  474 	inc	dptr
+   017F F0                  475 	movx	@dptr,a
+                            476 ;	genCall
+   0180 75 82r0E            477 	mov	dpl,#_g_gpio
+   0183 75 83s00            478 	mov	dph,#(_g_gpio >> 8)
+   0186 75 F0 00            479 	mov	b,#0x00
+   0189 12s00r00            480 	lcall	_GPIO_config
+                    018C    481 	C$main.c$79$1$1 ==.
+                            482 ;	../main.c:79: display_help();
+                            483 ;	genCall
+   018C 12s00r00            484 	lcall	_display_help
+                    018F    485 	C$main.c$80$1$1 ==.
+                            486 ;	../main.c:80: display_prompt();
+                            487 ;	genCall
+   018F 12s00r00            488 	lcall	_display_prompt
+                    0192    489 	C$main.c$87$1$1 ==.
+                            490 ;	../main.c:87: for ( sram_addr =0 ; sram_addr < 256 ; sram_addr++) {
+                            491 ;	genAssign
+   0192 90s00r35            492 	mov	dptr,#_main_sram_addr_1_1
+   0195 E4                  493 	clr	a
+   0196 F0                  494 	movx	@dptr,a
+   0197 A3                  495 	inc	dptr
+   0198 F0                  496 	movx	@dptr,a
+   0199                     497 00106$:
+                            498 ;	genAssign
+   0199 90s00r35            499 	mov	dptr,#_main_sram_addr_1_1
+   019C E0                  500 	movx	a,@dptr
+   019D FA                  501 	mov	r2,a
+   019E A3                  502 	inc	dptr
+   019F E0                  503 	movx	a,@dptr
+   01A0 FB                  504 	mov	r3,a
+                            505 ;	genCmpLt
+                            506 ;	genCmp
+   01A1 C3                  507 	clr	c
+   01A2 EB                  508 	mov	a,r3
+   01A3 94 01               509 	subb	a,#0x01
+                            510 ;	genIfxJump
+   01A5 40 03               511 	jc	00122$
+   01A7 02s01rDB            512 	ljmp	00109$
+   01AA                     513 00122$:
+                    01AA    514 	C$main.c$89$2$2 ==.
+                            515 ;	../main.c:89: HW_set_16bit_reg((APB3_BASE_ADDRESS + COREAPBSRAM_0)+ sram_addr, value );
+                            516 ;	genPlus
+                            517 ;	genPlusIncr
+                            518 ;     genPlus shortcut
+   01AA 8A 04               519 	mov	ar4,r2
+   01AC 74 F5               520 	mov	a,#0xF5
+   01AE 25 03               521 	add	a,ar3
+   01B0 FD                  522 	mov	r5,a
+                            523 ;	genAssign
+   01B1 90s00r00            524 	mov	dptr,#_HW_set_16bit_reg_PARM_2
+   01B4 74 34               525 	mov	a,#0x34
+   01B6 F0                  526 	movx	@dptr,a
+   01B7 A3                  527 	inc	dptr
+   01B8 74 12               528 	mov	a,#0x12
+   01BA F0                  529 	movx	@dptr,a
+                            530 ;	genCall
+   01BB 8C 82               531 	mov	dpl,r4
+   01BD 8D 83               532 	mov	dph,r5
+   01BF C0 02               533 	push	ar2
+   01C1 C0 03               534 	push	ar3
+   01C3 12s00r00            535 	lcall	_HW_set_16bit_reg
+   01C6 D0 03               536 	pop	ar3
+   01C8 D0 02               537 	pop	ar2
+                    01CA    538 	C$main.c$87$1$1 ==.
+                            539 ;	../main.c:87: for ( sram_addr =0 ; sram_addr < 256 ; sram_addr++) {
+                            540 ;	genPlus
+   01CA 90s00r35            541 	mov	dptr,#_main_sram_addr_1_1
+                            542 ;	genPlusIncr
+   01CD 74 01               543 	mov	a,#0x01
+   01CF 25 02               544 	add	a,ar2
+   01D1 F0                  545 	movx	@dptr,a
+   01D2 74 00               546 	mov	a,#0x00
+   01D4 35 03               547 	addc	a,ar3
+   01D6 A3                  548 	inc	dptr
+   01D7 F0                  549 	movx	@dptr,a
+   01D8 02s01r99            550 	ljmp	00106$
+   01DB                     551 00109$:
+                    01DB    552 	C$main.c$92$1$1 ==.
+                            553 ;	../main.c:92: for ( sram_addr =0 ; sram_addr < 256 ; sram_addr++) {
+                            554 ;	genAssign
+   01DB 90s00r35            555 	mov	dptr,#_main_sram_addr_1_1
+   01DE E4                  556 	clr	a
+   01DF F0                  557 	movx	@dptr,a
+   01E0 A3                  558 	inc	dptr
+   01E1 F0                  559 	movx	@dptr,a
+   01E2                     560 00110$:
+                            561 ;	genAssign
+   01E2 90s00r35            562 	mov	dptr,#_main_sram_addr_1_1
+   01E5 E0                  563 	movx	a,@dptr
+   01E6 FA                  564 	mov	r2,a
+   01E7 A3                  565 	inc	dptr
+   01E8 E0                  566 	movx	a,@dptr
+   01E9 FB                  567 	mov	r3,a
+                            568 ;	genCmpLt
+                            569 ;	genCmp
+   01EA C3                  570 	clr	c
+   01EB EB                  571 	mov	a,r3
+   01EC 94 01               572 	subb	a,#0x01
+                            573 ;	genIfxJump
+   01EE 40 03               574 	jc	00123$
+   01F0 02s02r1A            575 	ljmp	00104$
+   01F3                     576 00123$:
+                    01F3    577 	C$main.c$94$2$3 ==.
+                            578 ;	../main.c:94: testvar = HW_get_16bit_reg((APB3_BASE_ADDRESS + COREAPBSRAM_0)+ sram_addr);
+                            579 ;	genPlus
+                            580 ;	genPlusIncr
+                            581 ;     genPlus shortcut
+   01F3 8A 04               582 	mov	ar4,r2
+   01F5 74 F5               583 	mov	a,#0xF5
+   01F7 25 03               584 	add	a,ar3
+   01F9 FD                  585 	mov	r5,a
+                            586 ;	genCall
+   01FA 8C 82               587 	mov	dpl,r4
+   01FC 8D 83               588 	mov	dph,r5
+   01FE C0 02               589 	push	ar2
+   0200 C0 03               590 	push	ar3
+   0202 12s00r00            591 	lcall	_HW_get_16bit_reg
+   0205 D0 03               592 	pop	ar3
+   0207 D0 02               593 	pop	ar2
+                    0209    594 	C$main.c$92$1$1 ==.
+                            595 ;	../main.c:92: for ( sram_addr =0 ; sram_addr < 256 ; sram_addr++) {
+                            596 ;	genPlus
+   0209 90s00r35            597 	mov	dptr,#_main_sram_addr_1_1
+                            598 ;	genPlusIncr
+   020C 74 01               599 	mov	a,#0x01
+   020E 25 02               600 	add	a,ar2
+   0210 F0                  601 	movx	@dptr,a
+   0211 74 00               602 	mov	a,#0x00
+   0213 35 03               603 	addc	a,ar3
+   0215 A3                  604 	inc	dptr
+   0216 F0                  605 	movx	@dptr,a
+   0217 02s01rE2            606 	ljmp	00110$
+                    021A    607 	C$main.c$100$1$1 ==.
+                            608 ;	../main.c:100: while( 1 )
+   021A                     609 00104$:
+                    021A    610 	C$main.c$109$2$4 ==.
+                            611 ;	../main.c:109: rx_size = UART_get_rx(&g_stdio_uart, &rx_data[1],1);
+                            612 ;	genCast
+   021A 90s00r00            613 	mov	dptr,#_UART_get_rx_PARM_2
+   021D 74r38               614 	mov	a,#(_main_rx_data_2_4 + 0x0001)
+   021F F0                  615 	movx	@dptr,a
+   0220 A3                  616 	inc	dptr
+   0221 74s00               617 	mov	a,#((_main_rx_data_2_4 + 0x0001) >> 8)
+   0223 F0                  618 	movx	@dptr,a
+   0224 A3                  619 	inc	dptr
+   0225 74 00               620 	mov	a,#0x0
+   0227 F0                  621 	movx	@dptr,a
+                            622 ;	genAssign
+   0228 90s00r00            623 	mov	dptr,#_UART_get_rx_PARM_3
+   022B 74 01               624 	mov	a,#0x01
+   022D F0                  625 	movx	@dptr,a
+   022E E4                  626 	clr	a
+   022F A3                  627 	inc	dptr
+   0230 F0                  628 	movx	@dptr,a
+                            629 ;	genCall
+   0231 75 82r00            630 	mov	dpl,#_g_stdio_uart
+   0234 75 83s00            631 	mov	dph,#(_g_stdio_uart >> 8)
+   0237 75 F0 00            632 	mov	b,#0x00
+   023A 12s00r00            633 	lcall	_UART_get_rx
+   023D AA 82               634 	mov	r2,dpl
+   023F AB 83               635 	mov	r3,dph
+                            636 ;	genCast
+                    0241    637 	C$main.c$111$2$4 ==.
+                            638 ;	../main.c:111: if ( rx_size == 1){
+                            639 ;	genCmpEq
+                            640 ;	gencjneshort
+   0241 BA 01 02            641 	cjne	r2,#0x01,00124$
+   0244 80 03               642 	sjmp	00125$
+   0246                     643 00124$:
+   0246 02s02r1A            644 	ljmp	00104$
+   0249                     645 00125$:
+                    0249    646 	C$main.c$113$3$5 ==.
+                            647 ;	../main.c:113: key = rx_data[1];
+                            648 ;	genPointerGet
+                            649 ;	genFarPointerGet
+   0249 90s00r38            650 	mov	dptr,#(_main_rx_data_2_4 + 0x0001)
+   024C E0                  651 	movx	a,@dptr
+   024D FA                  652 	mov	r2,a
+                            653 ;	genAssign
+   024E 90s00r00            654 	mov	dptr,#_key
+   0251 EA                  655 	mov	a,r2
+   0252 F0                  656 	movx	@dptr,a
+                    0253    657 	C$main.c$114$3$5 ==.
+                            658 ;	../main.c:114: process_uart_data(key);
+                            659 ;	genCall
+   0253 8A 82               660 	mov	dpl,r2
+   0255 12s00r00            661 	lcall	_process_uart_data
+   0258 02s02r1A            662 	ljmp	00104$
+   025B                     663 00114$:
+                    025B    664 	C$main.c$122$1$1 ==.
+                    025B    665 	XG$main$0$0 ==.
+   025B 22                  666 	ret
+                            667 ;------------------------------------------------------------
+                            668 ;Allocation info for local variables in function 'wait'
+                            669 ;------------------------------------------------------------
+                            670 ;time_in_ms                Allocated with name '_wait_time_in_ms_1_1'
+                            671 ;i                         Allocated with name '_wait_i_1_1'
+                            672 ;------------------------------------------------------------
+                    025C    673 	G$wait$0$0 ==.
+                    025C    674 	C$main.c$126$1$1 ==.
+                            675 ;	../main.c:126: void wait(int time_in_ms)
+                            676 ;	-----------------------------------------
+                            677 ;	 function wait
+                            678 ;	-----------------------------------------
+   025C                     679 _wait:
+                            680 ;	genReceive
+   025C AA 83               681 	mov	r2,dph
+   025E E5 82               682 	mov	a,dpl
+   0260 90s00r39            683 	mov	dptr,#_wait_time_in_ms_1_1
+   0263 F0                  684 	movx	@dptr,a
+   0264 A3                  685 	inc	dptr
+   0265 EA                  686 	mov	a,r2
+   0266 F0                  687 	movx	@dptr,a
+                    0267    688 	C$main.c$131$1$1 ==.
+                            689 ;	../main.c:131: for (i=0; i < time_in_ms*10000; i++)
+                            690 ;	genAssign
+   0267 90s00r3B            691 	mov	dptr,#_wait_i_1_1
+   026A E4                  692 	clr	a
+   026B F0                  693 	movx	@dptr,a
+   026C A3                  694 	inc	dptr
+   026D F0                  695 	movx	@dptr,a
+                            696 ;	genAssign
+   026E 90s00r39            697 	mov	dptr,#_wait_time_in_ms_1_1
+   0271 E0                  698 	movx	a,@dptr
+   0272 FA                  699 	mov	r2,a
+   0273 A3                  700 	inc	dptr
+   0274 E0                  701 	movx	a,@dptr
+   0275 FB                  702 	mov	r3,a
+                            703 ;	genAssign
+   0276 90s00r00            704 	mov	dptr,#__mulint_PARM_2
+   0279 EA                  705 	mov	a,r2
+   027A F0                  706 	movx	@dptr,a
+   027B A3                  707 	inc	dptr
+   027C EB                  708 	mov	a,r3
+   027D F0                  709 	movx	@dptr,a
+                            710 ;	genCall
+   027E 75 82 10            711 	mov	dpl,#0x10
+   0281 75 83 27            712 	mov	dph,#0x27
+   0284 12s00r00            713 	lcall	__mulint
+   0287 AA 82               714 	mov	r2,dpl
+   0289 AB 83               715 	mov	r3,dph
+   028B                     716 00101$:
+                            717 ;	genAssign
+   028B 90s00r3B            718 	mov	dptr,#_wait_i_1_1
+   028E E0                  719 	movx	a,@dptr
+   028F FC                  720 	mov	r4,a
+   0290 A3                  721 	inc	dptr
+   0291 E0                  722 	movx	a,@dptr
+   0292 FD                  723 	mov	r5,a
+                            724 ;	genCmpLt
+                            725 ;	genCmp
+   0293 C3                  726 	clr	c
+   0294 EC                  727 	mov	a,r4
+   0295 9A                  728 	subb	a,r2
+   0296 ED                  729 	mov	a,r5
+   0297 64 80               730 	xrl	a,#0x80
+   0299 8B F0               731 	mov	b,r3
+   029B 63 F0 80            732 	xrl	b,#0x80
+   029E 95 F0               733 	subb	a,b
+                            734 ;	genIfxJump
+   02A0 40 03               735 	jc	00109$
+   02A2 02s02rB6            736 	ljmp	00105$
+   02A5                     737 00109$:
+                            738 ;	genPlus
+   02A5 90s00r3B            739 	mov	dptr,#_wait_i_1_1
+                            740 ;	genPlusIncr
+   02A8 74 01               741 	mov	a,#0x01
+   02AA 25 04               742 	add	a,ar4
+   02AC F0                  743 	movx	@dptr,a
+   02AD 74 00               744 	mov	a,#0x00
+   02AF 35 05               745 	addc	a,ar5
+   02B1 A3                  746 	inc	dptr
+   02B2 F0                  747 	movx	@dptr,a
+   02B3 02s02r8B            748 	ljmp	00101$
+   02B6                     749 00105$:
+                    02B6    750 	C$main.c$136$1$1 ==.
+                    02B6    751 	XG$wait$0$0 ==.
+   02B6 22                  752 	ret
+                            753 	.area CSEG    (CODE)
+                            754 	.area CONST   (CODE)
+                            755 	.area XINIT   (CODE)
+                            756 	.area CABS    (ABS,CODE)

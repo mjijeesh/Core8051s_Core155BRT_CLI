@@ -2,8 +2,9 @@
 #include "core_uart_apb.h"
 #include "socDefs.h"
 #include "hal.h"
+#include "Top_Level_hw_platform.h"
 
-extern UART_instance_t g_stdio_uart;
+
 
 void dp_display_text(uint8_t * text)
 {

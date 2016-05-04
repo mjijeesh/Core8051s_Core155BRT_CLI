@@ -216,31 +216,10 @@ void process_uart_data(uint8_t key)
 				   case 'D': case 'd':
 					   {
 
-					/*
-					while (1) {
-						dp_display_text("Sub Address #(1 to 31 ): ");
-						rx_char_ptr = rx_char;
-						read_user_input(rx_char_ptr);
-						 xatoi ( &rx_char_ptr, &user_input);
-						dp_display_value(user_input,HEX);
 
-						if ((user_input > 0 ) && (user_input < 32))
-							{
-							last_sub_address   = user_input;
-							display_brt_data(CORE1553BRT_0 ,last_sub_address);
-
-							 break;
-
-								} else {
-
-							   dp_display_text("\r\n\Invaid input !!!!! Enter the Sub Address # ( 1 to 31)to display Data: ");
-
-								}
-
-					   }
-					   */
-						   display_brt_data(CORE1553BRT_0 ,1);
-						   display_mem_data();
+						   display_brt_sa (); //get user input and display SA data
+						  // display_brt_data(CORE1553BRT_0 ,1);
+						  // display_mem_data();
 							break;
 					   }
 
@@ -320,5 +299,36 @@ void display_mem_data(void){
 
 		 }
 
+
+/* This functions gets a user input from terminal and display the memory data for the correspendign SA */
+void  display_brt_sa ( void) {
+	  uint8_t  subaddr;
+
+							while (1) {
+							dp_display_text("Sub Address #(1 to 31 ): ");
+							rx_char_ptr = rx_char;
+							read_user_input(rx_char_ptr);
+							xatoi ( &rx_char_ptr, &subaddr);
+							dp_display_text("\r\nInput recived :  ");
+							dp_display_value(subaddr,HEX);
+
+							if ((subaddr > 0 ) && (subaddr < 32))
+								{
+
+								display_brt_data(CORE1553BRT_0 ,subaddr);
+
+								 break;
+
+								}
+							   else {
+
+								   dp_display_text("\r\n\Invaid input !!!!! Enter the Sub Address # ( 1 to 31)to display Data: ");
+
+									}
+
+						   }
+
+
+}
 
 

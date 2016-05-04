@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : FreeWare ANSI-C Compiler
 ; Version 2.6.3 #4543 (Dec 31 2006)
-; This file generated Wed May 04 09:59:00 2016
+; This file generated Wed May 04 10:48:17 2016
 ;--------------------------------------------------------
 	.module ___cli
 	.optsdcc -mmcs51 --model-large
@@ -26,6 +26,7 @@
 	.globl _display_brt_data
 	.globl _process_uart_data
 	.globl _display_mem_data
+	.globl _display_brt_sa
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -145,6 +146,9 @@ _display_mem_data_i_1_1:
 	.ds 1
 Ldisplay_mem_data$m$1$1==.
 _display_mem_data_m_1_1:
+	.ds 1
+Ldisplay_brt_sa$subaddr$1$1==.
+_display_brt_sa_subaddr_1_1:
 	.ds 1
 ;--------------------------------------------------------
 ; external initialized ram data
@@ -2835,31 +2839,19 @@ _process_uart_data:
 	C$cli.c$216$2$2 ==.
 ;	../cli.c:216: case 'D': case 'd':
 00106$:
-	C$cli.c$242$3$5 ==.
-;	../cli.c:242: display_brt_data(CORE1553BRT_0 ,1);
-;	genAssign
-	mov	dptr,#_display_brt_data_PARM_2
-	mov	a,#0x01
-	movx	@dptr,a
+	C$cli.c$220$3$5 ==.
+;	../cli.c:220: display_brt_sa (); //get user input and display SA data
 ;	genCall
-	mov	dpl,#0x00
-	mov	dph,#0x08
-	mov	b,#0x00
-	mov	a,#0x00
-	lcall	_display_brt_data
-	C$cli.c$243$3$5 ==.
-;	../cli.c:243: display_mem_data();
-;	genCall
-	lcall	_display_mem_data
-	C$cli.c$253$1$1 ==.
-;	../cli.c:253: }
+	lcall	_display_brt_sa
+	C$cli.c$232$1$1 ==.
+;	../cli.c:232: }
 00108$:
-	C$cli.c$256$1$1 ==.
-;	../cli.c:256: display_prompt();
+	C$cli.c$235$1$1 ==.
+;	../cli.c:235: display_prompt();
 ;	genCall
 	lcall	_display_prompt
 00109$:
-	C$cli.c$258$1$1 ==.
+	C$cli.c$237$1$1 ==.
 	XG$process_uart_data$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -2873,14 +2865,14 @@ _process_uart_data:
 ;m                         Allocated with name '_display_mem_data_m_1_1'
 ;------------------------------------------------------------
 	G$display_mem_data$0$0 ==.
-	C$cli.c$263$1$1 ==.
-;	../cli.c:263: void display_mem_data(void){
+	C$cli.c$242$1$1 ==.
+;	../cli.c:242: void display_mem_data(void){
 ;	-----------------------------------------
 ;	 function display_mem_data
 ;	-----------------------------------------
 _display_mem_data:
-	C$cli.c$273$1$1 ==.
-;	../cli.c:273: rx_sub_address = mem_addr;   //0x1080
+	C$cli.c$252$1$1 ==.
+;	../cli.c:252: rx_sub_address = mem_addr;   //0x1080
 ;	genAssign
 	mov	dptr,#_display_mem_data_rx_sub_address_1_1
 	mov	a,#0x00
@@ -2888,8 +2880,8 @@ _display_mem_data:
 	inc	dptr
 	mov	a,#0xF5
 	movx	@dptr,a
-	C$cli.c$274$1$1 ==.
-;	../cli.c:274: tx_sub_address = mem_addr;
+	C$cli.c$253$1$1 ==.
+;	../cli.c:253: tx_sub_address = mem_addr;
 ;	genAssign
 	mov	dptr,#_display_mem_data_tx_sub_address_1_1
 	mov	a,#0x00
@@ -2897,23 +2889,23 @@ _display_mem_data:
 	inc	dptr
 	mov	a,#0xF5
 	movx	@dptr,a
-	C$cli.c$275$1$1 ==.
-;	../cli.c:275: mem_data   = 0x0000;
+	C$cli.c$254$1$1 ==.
+;	../cli.c:254: mem_data   = 0x0000;
 ;	genAssign
 	mov	dptr,#_display_mem_data_mem_data_1_1
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	C$cli.c$277$1$1 ==.
-;	../cli.c:277: dp_display_text("\n\r MEMORY FiLLING WIETH FOLLOWING DATA ");
+	C$cli.c$256$1$1 ==.
+;	../cli.c:256: dp_display_text("\n\r MEMORY FiLLING WIETH FOLLOWING DATA ");
 ;	genCall
 	mov	dpl,#__str_15
 	mov	dph,#(__str_15 >> 8)
 	mov	b,#0x80
 	lcall	_dp_display_text
-	C$cli.c$281$1$1 ==.
-;	../cli.c:281: for ( i=0; i <= 3 ;i++) {
+	C$cli.c$260$1$1 ==.
+;	../cli.c:260: for ( i=0; i <= 3 ;i++) {
 ;	genAssign
 	mov	dptr,#_display_mem_data_i_1_1
 	mov	a,#0x00
@@ -2932,8 +2924,8 @@ _display_mem_data:
 	jnc	00125$
 	ljmp	00107$
 00125$:
-	C$cli.c$282$2$2 ==.
-;	../cli.c:282: dp_display_text("\r\n");
+	C$cli.c$261$2$2 ==.
+;	../cli.c:261: dp_display_text("\r\n");
 ;	genCall
 	mov	dpl,#__str_10
 	mov	dph,#(__str_10 >> 8)
@@ -2941,8 +2933,8 @@ _display_mem_data:
 	push	ar2
 	lcall	_dp_display_text
 	pop	ar2
-	C$cli.c$283$2$2 ==.
-;	../cli.c:283: dp_display_value(i,DEC);
+	C$cli.c$262$2$2 ==.
+;	../cli.c:262: dp_display_value(i,DEC);
 ;	genCast
 	mov	r3,#0x00
 	mov	r4,#0x00
@@ -2960,15 +2952,15 @@ _display_mem_data:
 	mov	b,r4
 	mov	a,r5
 	lcall	_dp_display_value
-	C$cli.c$284$2$2 ==.
-;	../cli.c:284: dp_display_text("\t");
+	C$cli.c$263$2$2 ==.
+;	../cli.c:263: dp_display_text("\t");
 ;	genCall
 	mov	dpl,#__str_11
 	mov	dph,#(__str_11 >> 8)
 	mov	b,#0x80
 	lcall	_dp_display_text
-	C$cli.c$285$2$2 ==.
-;	../cli.c:285: dp_display_value(rx_sub_address,HEX);// ( 8* i) for calculating current address of the total 32 location
+	C$cli.c$264$2$2 ==.
+;	../cli.c:264: dp_display_value(rx_sub_address,HEX);// ( 8* i) for calculating current address of the total 32 location
 ;	genAssign
 	mov	dptr,#_display_mem_data_rx_sub_address_1_1
 	movx	a,@dptr
@@ -2991,22 +2983,22 @@ _display_mem_data:
 	mov	b,r4
 	mov	a,r5
 	lcall	_dp_display_value
-	C$cli.c$286$2$2 ==.
-;	../cli.c:286: dp_display_text("\t");
+	C$cli.c$265$2$2 ==.
+;	../cli.c:265: dp_display_text("\t");
 ;	genCall
 	mov	dpl,#__str_11
 	mov	dph,#(__str_11 >> 8)
 	mov	b,#0x80
 	lcall	_dp_display_text
-	C$cli.c$288$2$2 ==.
-;	../cli.c:288: for (m=1; m <=8 ;m++){
+	C$cli.c$267$2$2 ==.
+;	../cli.c:267: for (m=1; m <=8 ;m++){
 ;	genAssign
 	mov	dptr,#_display_mem_data_m_1_1
 	mov	a,#0x08
 	movx	@dptr,a
 00103$:
-	C$cli.c$290$3$3 ==.
-;	../cli.c:290: HW_set_16bit_reg(rx_sub_address,mem_data);
+	C$cli.c$269$3$3 ==.
+;	../cli.c:269: HW_set_16bit_reg(rx_sub_address,mem_data);
 ;	genAssign
 	mov	dptr,#_display_mem_data_rx_sub_address_1_1
 	movx	a,@dptr
@@ -3040,8 +3032,8 @@ _display_mem_data:
 	pop	ar4
 	pop	ar3
 	pop	ar2
-	C$cli.c$291$3$3 ==.
-;	../cli.c:291: dp_display_value(mem_data,HEX);
+	C$cli.c$270$3$3 ==.
+;	../cli.c:270: dp_display_value(mem_data,HEX);
 ;	genCast
 	mov	ar6,r4
 	mov	ar7,r5
@@ -3067,8 +3059,8 @@ _display_mem_data:
 	pop	ar4
 	pop	ar3
 	pop	ar2
-	C$cli.c$292$3$3 ==.
-;	../cli.c:292: dp_display_text("\t");
+	C$cli.c$271$3$3 ==.
+;	../cli.c:271: dp_display_text("\t");
 ;	genCall
 	mov	dpl,#__str_11
 	mov	dph,#(__str_11 >> 8)
@@ -3082,8 +3074,8 @@ _display_mem_data:
 	pop	ar4
 	pop	ar3
 	pop	ar2
-	C$cli.c$293$3$3 ==.
-;	../cli.c:293: rx_sub_address = rx_sub_address + 1;
+	C$cli.c$272$3$3 ==.
+;	../cli.c:272: rx_sub_address = rx_sub_address + 1;
 ;	genPlus
 	mov	dptr,#_display_mem_data_rx_sub_address_1_1
 ;	genPlusIncr
@@ -3094,8 +3086,8 @@ _display_mem_data:
 	addc	a,ar3
 	inc	dptr
 	movx	@dptr,a
-	C$cli.c$294$3$3 ==.
-;	../cli.c:294: mem_data = mem_data + 4;
+	C$cli.c$273$3$3 ==.
+;	../cli.c:273: mem_data = mem_data + 4;
 ;	genPlus
 	mov	dptr,#_display_mem_data_mem_data_1_1
 ;	genPlusIncr
@@ -3117,8 +3109,8 @@ _display_mem_data:
 ;	genAssign
 	mov	dptr,#_display_mem_data_m_1_1
 	movx	@dptr,a
-	C$cli.c$288$3$3 ==.
-;	../cli.c:288: for (m=1; m <=8 ;m++){
+	C$cli.c$267$3$3 ==.
+;	../cli.c:267: for (m=1; m <=8 ;m++){
 ;	genAssign
 	mov	dptr,#_display_mem_data_m_1_1
 	movx	a,@dptr
@@ -3129,8 +3121,8 @@ _display_mem_data:
 	jz	00126$
 	ljmp	00103$
 00126$:
-	C$cli.c$281$1$1 ==.
-;	../cli.c:281: for ( i=0; i <= 3 ;i++) {
+	C$cli.c$260$1$1 ==.
+;	../cli.c:260: for ( i=0; i <= 3 ;i++) {
 ;	genAssign
 	mov	dptr,#_display_mem_data_i_1_1
 	movx	a,@dptr
@@ -3143,15 +3135,15 @@ _display_mem_data:
 	movx	@dptr,a
 	ljmp	00104$
 00107$:
-	C$cli.c$300$1$1 ==.
-;	../cli.c:300: dp_display_text("\n\r Reading back the data from the same location");
+	C$cli.c$279$1$1 ==.
+;	../cli.c:279: dp_display_text("\n\r Reading back the data from the same location");
 ;	genCall
 	mov	dpl,#__str_16
 	mov	dph,#(__str_16 >> 8)
 	mov	b,#0x80
 	lcall	_dp_display_text
-	C$cli.c$304$1$1 ==.
-;	../cli.c:304: for ( i=0; i <= 3 ;i++) {
+	C$cli.c$283$1$1 ==.
+;	../cli.c:283: for ( i=0; i <= 3 ;i++) {
 ;	genAssign
 	mov	dptr,#_display_mem_data_i_1_1
 	mov	a,#0x00
@@ -3170,8 +3162,8 @@ _display_mem_data:
 	jnc	00127$
 	ljmp	00115$
 00127$:
-	C$cli.c$305$2$4 ==.
-;	../cli.c:305: dp_display_text("\r\n");
+	C$cli.c$284$2$4 ==.
+;	../cli.c:284: dp_display_text("\r\n");
 ;	genCall
 	mov	dpl,#__str_10
 	mov	dph,#(__str_10 >> 8)
@@ -3179,8 +3171,8 @@ _display_mem_data:
 	push	ar2
 	lcall	_dp_display_text
 	pop	ar2
-	C$cli.c$306$2$4 ==.
-;	../cli.c:306: dp_display_value(i,DEC);
+	C$cli.c$285$2$4 ==.
+;	../cli.c:285: dp_display_value(i,DEC);
 ;	genCast
 	mov	r3,#0x00
 	mov	r4,#0x00
@@ -3198,15 +3190,15 @@ _display_mem_data:
 	mov	b,r4
 	mov	a,r5
 	lcall	_dp_display_value
-	C$cli.c$307$2$4 ==.
-;	../cli.c:307: dp_display_text("\t");
+	C$cli.c$286$2$4 ==.
+;	../cli.c:286: dp_display_text("\t");
 ;	genCall
 	mov	dpl,#__str_11
 	mov	dph,#(__str_11 >> 8)
 	mov	b,#0x80
 	lcall	_dp_display_text
-	C$cli.c$308$2$4 ==.
-;	../cli.c:308: dp_display_value(tx_sub_address,HEX);
+	C$cli.c$287$2$4 ==.
+;	../cli.c:287: dp_display_value(tx_sub_address,HEX);
 ;	genAssign
 	mov	dptr,#_display_mem_data_tx_sub_address_1_1
 	movx	a,@dptr
@@ -3229,22 +3221,22 @@ _display_mem_data:
 	mov	b,r4
 	mov	a,r5
 	lcall	_dp_display_value
-	C$cli.c$309$2$4 ==.
-;	../cli.c:309: dp_display_text("\t");
+	C$cli.c$288$2$4 ==.
+;	../cli.c:288: dp_display_text("\t");
 ;	genCall
 	mov	dpl,#__str_11
 	mov	dph,#(__str_11 >> 8)
 	mov	b,#0x80
 	lcall	_dp_display_text
-	C$cli.c$311$2$4 ==.
-;	../cli.c:311: for (m=1; m <=8 ;m++){
+	C$cli.c$290$2$4 ==.
+;	../cli.c:290: for (m=1; m <=8 ;m++){
 ;	genAssign
 	mov	dptr,#_display_mem_data_m_1_1
 	mov	a,#0x08
 	movx	@dptr,a
 00110$:
-	C$cli.c$313$3$5 ==.
-;	../cli.c:313: mem_data= HW_get_16bit_reg(tx_sub_address);
+	C$cli.c$292$3$5 ==.
+;	../cli.c:292: mem_data= HW_get_16bit_reg(tx_sub_address);
 ;	genAssign
 	mov	dptr,#_display_mem_data_tx_sub_address_1_1
 	movx	a,@dptr
@@ -3262,8 +3254,8 @@ _display_mem_data:
 	mov	r5,dph
 	pop	ar3
 	pop	ar2
-	C$cli.c$314$3$5 ==.
-;	../cli.c:314: dp_display_value(mem_data,HEX);
+	C$cli.c$293$3$5 ==.
+;	../cli.c:293: dp_display_value(mem_data,HEX);
 ;	genCast
 	mov	r6,#0x00
 	mov	r7,#0x00
@@ -3283,8 +3275,8 @@ _display_mem_data:
 	lcall	_dp_display_value
 	pop	ar3
 	pop	ar2
-	C$cli.c$315$3$5 ==.
-;	../cli.c:315: dp_display_text("\t");
+	C$cli.c$294$3$5 ==.
+;	../cli.c:294: dp_display_text("\t");
 ;	genCall
 	mov	dpl,#__str_11
 	mov	dph,#(__str_11 >> 8)
@@ -3294,8 +3286,8 @@ _display_mem_data:
 	lcall	_dp_display_text
 	pop	ar3
 	pop	ar2
-	C$cli.c$316$3$5 ==.
-;	../cli.c:316: tx_sub_address = tx_sub_address + 1;
+	C$cli.c$295$3$5 ==.
+;	../cli.c:295: tx_sub_address = tx_sub_address + 1;
 ;	genPlus
 	mov	dptr,#_display_mem_data_tx_sub_address_1_1
 ;	genPlusIncr
@@ -3317,8 +3309,8 @@ _display_mem_data:
 ;	genAssign
 	mov	dptr,#_display_mem_data_m_1_1
 	movx	@dptr,a
-	C$cli.c$311$3$5 ==.
-;	../cli.c:311: for (m=1; m <=8 ;m++){
+	C$cli.c$290$3$5 ==.
+;	../cli.c:290: for (m=1; m <=8 ;m++){
 ;	genAssign
 	mov	dptr,#_display_mem_data_m_1_1
 	movx	a,@dptr
@@ -3329,8 +3321,8 @@ _display_mem_data:
 	jz	00128$
 	ljmp	00110$
 00128$:
-	C$cli.c$304$1$1 ==.
-;	../cli.c:304: for ( i=0; i <= 3 ;i++) {
+	C$cli.c$283$1$1 ==.
+;	../cli.c:283: for ( i=0; i <= 3 ;i++) {
 ;	genAssign
 	mov	dptr,#_display_mem_data_i_1_1
 	movx	a,@dptr
@@ -3343,8 +3335,143 @@ _display_mem_data:
 	movx	@dptr,a
 	ljmp	00111$
 00115$:
-	C$cli.c$321$1$1 ==.
+	C$cli.c$300$1$1 ==.
 	XG$display_mem_data$0$0 ==.
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'display_brt_sa'
+;------------------------------------------------------------
+;subaddr                   Allocated with name '_display_brt_sa_subaddr_1_1'
+;------------------------------------------------------------
+	G$display_brt_sa$0$0 ==.
+	C$cli.c$304$1$1 ==.
+;	../cli.c:304: void  display_brt_sa ( void) {
+;	-----------------------------------------
+;	 function display_brt_sa
+;	-----------------------------------------
+_display_brt_sa:
+	C$cli.c$307$1$1 ==.
+;	../cli.c:307: while (1) {
+00106$:
+	C$cli.c$308$2$2 ==.
+;	../cli.c:308: dp_display_text("Sub Address #(1 to 31 ): ");
+;	genCall
+	mov	dpl,#__str_17
+	mov	dph,#(__str_17 >> 8)
+	mov	b,#0x80
+	lcall	_dp_display_text
+	C$cli.c$309$2$2 ==.
+;	../cli.c:309: rx_char_ptr = rx_char;
+;	genAssign
+	mov	dptr,#_rx_char_ptr
+	mov	a,#_rx_char
+	movx	@dptr,a
+	inc	dptr
+	mov	a,#(_rx_char >> 8)
+	movx	@dptr,a
+	inc	dptr
+	mov	a,#0x00
+	movx	@dptr,a
+	C$cli.c$310$2$2 ==.
+;	../cli.c:310: read_user_input(rx_char_ptr);
+;	genCall
+	mov	dpl,#_rx_char
+	mov	dph,#(_rx_char >> 8)
+	mov	b,#0x00
+	lcall	_read_user_input
+	C$cli.c$311$2$2 ==.
+;	../cli.c:311: xatoi ( &rx_char_ptr, &subaddr);
+;	genCast
+	mov	dptr,#_xatoi_PARM_2
+	mov	a,#_display_brt_sa_subaddr_1_1
+	movx	@dptr,a
+	inc	dptr
+	mov	a,#(_display_brt_sa_subaddr_1_1 >> 8)
+	movx	@dptr,a
+	inc	dptr
+	mov	a,#0x0
+	movx	@dptr,a
+;	genCall
+	mov	dpl,#_rx_char_ptr
+	mov	dph,#(_rx_char_ptr >> 8)
+	mov	b,#0x00
+	lcall	_xatoi
+	C$cli.c$312$2$2 ==.
+;	../cli.c:312: dp_display_text("\r\nInput recived :  ");
+;	genCall
+	mov	dpl,#__str_18
+	mov	dph,#(__str_18 >> 8)
+	mov	b,#0x80
+	lcall	_dp_display_text
+	C$cli.c$313$2$2 ==.
+;	../cli.c:313: dp_display_value(subaddr,HEX);
+;	genAssign
+	mov	dptr,#_display_brt_sa_subaddr_1_1
+	movx	a,@dptr
+	mov	r2,a
+;	genCast
+	mov	r3,#0x00
+	mov	r4,#0x00
+	mov	r5,#0x00
+;	genAssign
+	mov	dptr,#_dp_display_value_PARM_2
+	clr	a
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+;	genCall
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	_dp_display_value
+	C$cli.c$315$2$2 ==.
+;	../cli.c:315: if ((subaddr > 0 ) && (subaddr < 32))
+;	genAssign
+	mov	dptr,#_display_brt_sa_subaddr_1_1
+	movx	a,@dptr
+	mov	r2,a
+;	genIfx
+	mov	a,r2
+;	genIfxJump
+	jnz	00113$
+	ljmp	00102$
+00113$:
+;	genCmpLt
+;	genCmp
+	cjne	r2,#0x20,00114$
+00114$:
+;	genIfxJump
+	jc	00115$
+	ljmp	00102$
+00115$:
+	C$cli.c$318$3$3 ==.
+;	../cli.c:318: display_brt_data(CORE1553BRT_0 ,subaddr);
+;	genAssign
+	mov	dptr,#_display_brt_data_PARM_2
+	mov	a,r2
+	movx	@dptr,a
+;	genCall
+	mov	dpl,#0x00
+	mov	dph,#0x08
+	mov	b,#0x00
+	mov	a,#0x00
+	lcall	_display_brt_data
+	C$cli.c$320$3$3 ==.
+;	../cli.c:320: break;
+	ljmp	00108$
+00102$:
+	C$cli.c$325$3$4 ==.
+;	../cli.c:325: dp_display_text("\r\n\Invaid input !!!!! Enter the Sub Address # ( 1 to 31)to display Data: ");
+;	genCall
+	mov	dpl,#__str_19
+	mov	dph,#(__str_19 >> 8)
+	mov	b,#0x80
+	lcall	_dp_display_text
+	ljmp	00106$
+00108$:
+	C$cli.c$332$1$1 ==.
+	XG$display_brt_sa$0$0 ==.
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
@@ -3401,6 +3528,23 @@ __str_16:
 	.db 0x0A
 	.db 0x0D
 	.ascii " Reading back the data from the same location"
+	.db 0x00
+F___cli$_str_17$0$0 == .
+__str_17:
+	.ascii "Sub Address #(1 to 31 ): "
+	.db 0x00
+F___cli$_str_18$0$0 == .
+__str_18:
+	.db 0x0D
+	.db 0x0A
+	.ascii "Input recived :  "
+	.db 0x00
+F___cli$_str_19$0$0 == .
+__str_19:
+	.db 0x0D
+	.db 0x0A
+	.ascii "Invaid input !!!!! Enter the Sub Address # ( 1 to 31)to di"
+	.ascii "splay Data: "
 	.db 0x00
 	.area XINIT   (CODE)
 F___cli$__xinit_user_input$0$0 == .

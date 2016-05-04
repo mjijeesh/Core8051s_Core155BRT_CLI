@@ -7,6 +7,7 @@ F:G$display_brt_regs$0$0({2}DF,SV:S),Z,0,0,0,0,0
 F:G$display_brt_data$0$0({2}DF,SV:S),Z,0,0,0,0,0
 F:G$process_uart_data$0$0({2}DF,SV:S),Z,0,0,0,0,0
 F:G$display_mem_data$0$0({2}DF,SV:S),Z,0,0,0,0,0
+F:G$display_brt_sa$0$0({2}DF,SV:S),Z,0,0,0,0,0
 T:F___cli$__00010000[({0}S:S$base_address$0$0({2}SI:U),Z,0,0)({2}S:S$status$0$0({1}SC:U),Z,0,0)]
 T:F___cli$__gpio_instance_t[({0}S:S$base_addr$0$0({2}SI:U),Z,0,0)({2}S:S$apb_bus_width$0$0({1}SC:U),Z,0,0)]
 S:Ldisplay_brt_regs$sloc0$1$0({1}SC:U),E,0,0
@@ -45,6 +46,7 @@ S:Ldisplay_mem_data$tx_sub_address$1$1({2}SI:U),F,0,0
 S:Ldisplay_mem_data$rx_sub_address$1$1({2}SI:U),F,0,0
 S:Ldisplay_mem_data$i$1$1({1}SC:U),F,0,0
 S:Ldisplay_mem_data$m$1$1({1}SC:U),F,0,0
+S:Ldisplay_brt_sa$subaddr$1$1({1}SC:U),F,0,0
 S:G$user_input$0$0({4}SL:U),F,0,0
 S:G$last_rt_subaddress$0$0({1}SC:U),F,0,0
 S:G$GPIO_init$0$0({2}DF,SV:S),C,0,0
@@ -108,5 +110,8 @@ S:F___cli$_str_13$0$0({15}DA15,SC:S),D,0,0
 S:F___cli$_str_14$0$0({14}DA14,SC:S),D,0,0
 S:F___cli$_str_15$0$0({40}DA40,SC:S),D,0,0
 S:F___cli$_str_16$0$0({48}DA48,SC:S),D,0,0
+S:F___cli$_str_17$0$0({26}DA26,SC:S),D,0,0
+S:F___cli$_str_18$0$0({20}DA20,SC:S),D,0,0
+S:F___cli$_str_19$0$0({73}DA73,SC:S),D,0,0
 S:F___cli$__xinit_user_input$0$0({4}SL:U),C,0,0
 S:F___cli$__xinit_last_rt_subaddress$0$0({1}SC:U),C,0,0

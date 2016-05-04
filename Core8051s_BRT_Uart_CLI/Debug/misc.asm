@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : FreeWare ANSI-C Compiler
 ; Version 2.6.3 #4543 (Dec 31 2006)
-; This file generated Wed May 04 09:59:00 2016
+; This file generated Wed May 04 10:48:17 2016
 ;--------------------------------------------------------
 	.module ___misc
 	.optsdcc -mmcs51 --model-large
@@ -16,6 +16,7 @@
 	.globl _dp_display_array_PARM_3
 	.globl _dp_display_array_PARM_2
 	.globl _dp_display_value_PARM_2
+	.globl _g_stdio_uart
 	.globl _dp_display_text
 	.globl _dp_display_value
 	.globl _dp_display_array
@@ -80,6 +81,9 @@ _int_to_dec_int_sloc0_1_0:
 ; external ram data
 ;--------------------------------------------------------
 	.area XSEG    (XDATA)
+G$g_stdio_uart$0$0==.
+_g_stdio_uart::
+	.ds 3
 Ldp_display_text$text$1$1==.
 _dp_display_text_text_1_1:
 	.ds 3
@@ -210,8 +214,8 @@ _getParity_parity_1_1:
 ;length                    Allocated with name '_dp_display_text_length_1_1'
 ;------------------------------------------------------------
 	G$dp_display_text$0$0 ==.
-	C$misc.c$8$0$0 ==.
-;	../misc.c:8: void dp_display_text(uint8_t * text)
+	C$misc.c$9$0$0 ==.
+;	../misc.c:9: void dp_display_text(uint8_t * text)
 ;	-----------------------------------------
 ;	 function dp_display_text
 ;	-----------------------------------------
@@ -236,16 +240,16 @@ _dp_display_text:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$misc.c$12$1$1 ==.
-;	../misc.c:12: length = 0;
+	C$misc.c$13$1$1 ==.
+;	../misc.c:13: length = 0;
 ;	genAssign
 	mov	dptr,#_dp_display_text_length_1_1
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	C$misc.c$13$1$1 ==.
-;	../misc.c:13: while (text[length++]!='\0');
+	C$misc.c$14$1$1 ==.
+;	../misc.c:14: while (text[length++]!='\0');
 ;	genAssign
 	mov	dptr,#_dp_display_text_text_1_1
 	movx	a,@dptr
@@ -296,8 +300,8 @@ _dp_display_text:
 00108$:
 	ljmp	00101$
 00109$:
-	C$misc.c$15$1$1 ==.
-;	../misc.c:15: UART_send(&g_stdio_uart, (uint8_t *)text,length);
+	C$misc.c$16$1$1 ==.
+;	../misc.c:16: UART_send(&g_stdio_uart, (uint8_t *)text,length);
 ;	genAssign
 	mov	dptr,#_dp_display_text_length_1_1
 	movx	a,@dptr
@@ -328,7 +332,7 @@ _dp_display_text:
 	mov	b,#0x00
 	lcall	_UART_send
 00104$:
-	C$misc.c$16$1$1 ==.
+	C$misc.c$17$1$1 ==.
 	XG$dp_display_text$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -340,8 +344,8 @@ _dp_display_text:
 ;text_size                 Allocated with name '_dp_display_value_text_size_1_1'
 ;------------------------------------------------------------
 	G$dp_display_value$0$0 ==.
-	C$misc.c$18$1$1 ==.
-;	../misc.c:18: void dp_display_value(uint32_t value,DPUINT descriptive)
+	C$misc.c$19$1$1 ==.
+;	../misc.c:19: void dp_display_value(uint32_t value,DPUINT descriptive)
 ;	-----------------------------------------
 ;	 function dp_display_value
 ;	-----------------------------------------
@@ -363,8 +367,8 @@ _dp_display_value:
 	inc	dptr
 	mov	a,r5
 	movx	@dptr,a
-	C$misc.c$23$1$1 ==.
-;	../misc.c:23: if (descriptive == HEX)
+	C$misc.c$24$1$1 ==.
+;	../misc.c:24: if (descriptive == HEX)
 ;	genAssign
 	mov	dptr,#_dp_display_value_PARM_2
 	movx	a,@dptr
@@ -379,8 +383,8 @@ _dp_display_value:
 	jz	00107$
 	ljmp	00102$
 00107$:
-	C$misc.c$25$2$2 ==.
-;	../misc.c:25: text_size = int_to_hex_int( value, value_text, 8);
+	C$misc.c$26$2$2 ==.
+;	../misc.c:26: text_size = int_to_hex_int( value, value_text, 8);
 ;	genAssign
 	mov	dptr,#_dp_display_value_value_1_1
 	movx	a,@dptr
@@ -426,8 +430,8 @@ _dp_display_value:
 	movx	@dptr,a
 	ljmp	00103$
 00102$:
-	C$misc.c$29$2$3 ==.
-;	../misc.c:29: text_size = int_to_dec_int( value, value_text);
+	C$misc.c$30$2$3 ==.
+;	../misc.c:30: text_size = int_to_dec_int( value, value_text);
 ;	genAssign
 	mov	dptr,#_dp_display_value_value_1_1
 	movx	a,@dptr
@@ -465,8 +469,8 @@ _dp_display_value:
 	mov	a,b
 	movx	@dptr,a
 00103$:
-	C$misc.c$31$1$1 ==.
-;	../misc.c:31: UART_send (&g_stdio_uart, value_text, text_size);
+	C$misc.c$32$1$1 ==.
+;	../misc.c:32: UART_send (&g_stdio_uart, value_text, text_size);
 ;	genAssign
 	mov	dptr,#_dp_display_value_text_size_1_1
 	movx	a,@dptr
@@ -497,7 +501,7 @@ _dp_display_value:
 	mov	b,#0x00
 	lcall	_UART_send
 00104$:
-	C$misc.c$33$1$1 ==.
+	C$misc.c$34$1$1 ==.
 	XG$dp_display_value$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -511,8 +515,8 @@ _dp_display_value:
 ;idx                       Allocated with name '_dp_display_array_idx_1_1'
 ;------------------------------------------------------------
 	G$dp_display_array$0$0 ==.
-	C$misc.c$34$1$1 ==.
-;	../misc.c:34: void dp_display_array(uint8_t *value,DPUINT bytes, DPUINT descriptive)
+	C$misc.c$35$1$1 ==.
+;	../misc.c:35: void dp_display_array(uint8_t *value,DPUINT bytes, DPUINT descriptive)
 ;	-----------------------------------------
 ;	 function dp_display_array
 ;	-----------------------------------------
@@ -529,8 +533,8 @@ _dp_display_array:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$misc.c$37$1$1 ==.
-;	../misc.c:37: for (idx=0;idx<bytes;idx++)
+	C$misc.c$38$1$1 ==.
+;	../misc.c:38: for (idx=0;idx<bytes;idx++)
 ;	genAssign
 	mov	dptr,#_dp_display_array_idx_1_1
 	clr	a
@@ -588,8 +592,8 @@ _dp_display_array:
 	jnz	00109$
 	ljmp	00105$
 00109$:
-	C$misc.c$39$2$2 ==.
-;	../misc.c:39: dp_display_value(value[bytes-1-idx], descriptive);
+	C$misc.c$40$2$2 ==.
+;	../misc.c:40: dp_display_value(value[bytes-1-idx], descriptive);
 ;	genMinus
 ;	genMinusDec
 	mov	a,r7
@@ -652,8 +656,8 @@ _dp_display_array:
 	pop	ar4
 	pop	ar3
 	pop	ar2
-	C$misc.c$40$2$2 ==.
-;	../misc.c:40: dp_display_text(" ");
+	C$misc.c$41$2$2 ==.
+;	../misc.c:41: dp_display_text(" ");
 ;	genCall
 	mov	dpl,#__str_0
 	mov	dph,#(__str_0 >> 8)
@@ -669,8 +673,8 @@ _dp_display_array:
 	pop	ar4
 	pop	ar3
 	pop	ar2
-	C$misc.c$37$1$1 ==.
-;	../misc.c:37: for (idx=0;idx<bytes;idx++)
+	C$misc.c$38$1$1 ==.
+;	../misc.c:38: for (idx=0;idx<bytes;idx++)
 ;	genPlus
 	mov	dptr,#_dp_display_array_idx_1_1
 ;	genPlusIncr
@@ -687,7 +691,7 @@ _dp_display_array:
 	pop	ar2
 	ljmp	00101$
 00105$:
-	C$misc.c$43$1$1 ==.
+	C$misc.c$44$1$1 ==.
 	XG$dp_display_array$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -705,8 +709,8 @@ _dp_display_array:
 ;nibble                    Allocated with name '_int_to_hex_int_nibble_2_2'
 ;------------------------------------------------------------
 	G$int_to_hex_int$0$0 ==.
-	C$misc.c$48$1$1 ==.
-;	../misc.c:48: DPUINT int_to_hex_int(DPUINT value, uint8_t * p_result, DPUINT result_size)
+	C$misc.c$49$1$1 ==.
+;	../misc.c:49: DPUINT int_to_hex_int(DPUINT value, uint8_t * p_result, DPUINT result_size)
 ;	-----------------------------------------
 ;	 function int_to_hex_int
 ;	-----------------------------------------
@@ -719,16 +723,16 @@ _int_to_hex_int:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$misc.c$53$1$1 ==.
-;	../misc.c:53: nibble_idx = 0;
+	C$misc.c$54$1$1 ==.
+;	../misc.c:54: nibble_idx = 0;
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_nibble_idx_1_1
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	C$misc.c$54$1$1 ==.
-;	../misc.c:54: uvalue = (unsigned int)value;
+	C$misc.c$55$1$1 ==.
+;	../misc.c:55: uvalue = (unsigned int)value;
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_value_1_1
 	movx	a,@dptr
@@ -743,11 +747,11 @@ _int_to_hex_int:
 	inc	dptr
 	mov	a,r3
 	movx	@dptr,a
-	C$misc.c$56$2$2 ==.
-;	../misc.c:56: do {
-00105$:
 	C$misc.c$57$2$2 ==.
-;	../misc.c:57: int nibble = uvalue & 0x0F;
+;	../misc.c:57: do {
+00105$:
+	C$misc.c$58$2$2 ==.
+;	../misc.c:58: int nibble = uvalue & 0x0F;
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_uvalue_1_1
 	movx	a,@dptr
@@ -758,8 +762,8 @@ _int_to_hex_int:
 ;	genAnd
 	anl	ar2,#0x0F
 	mov	r3,#0x00
-	C$misc.c$59$2$2 ==.
-;	../misc.c:59: if ( nibble < 10 )
+	C$misc.c$60$2$2 ==.
+;	../misc.c:60: if ( nibble < 10 )
 ;	genAssign
 	mov	ar4,r2
 	mov	ar5,r3
@@ -775,8 +779,8 @@ _int_to_hex_int:
 	jc	00121$
 	ljmp	00102$
 00121$:
-	C$misc.c$60$2$2 ==.
-;	../misc.c:60: conv_array[nibble_idx] = nibble + '0';
+	C$misc.c$61$2$2 ==.
+;	../misc.c:61: conv_array[nibble_idx] = nibble + '0';
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_nibble_idx_1_1
 	movx	a,@dptr
@@ -806,8 +810,8 @@ _int_to_hex_int:
 	movx	@dptr,a
 	ljmp	00103$
 00102$:
-	C$misc.c$62$2$2 ==.
-;	../misc.c:62: conv_array[nibble_idx] = nibble  - 10 + 'A';
+	C$misc.c$63$2$2 ==.
+;	../misc.c:63: conv_array[nibble_idx] = nibble  - 10 + 'A';
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_nibble_idx_1_1
 	movx	a,@dptr
@@ -834,8 +838,8 @@ _int_to_hex_int:
 	mov	a,r2
 	movx	@dptr,a
 00103$:
-	C$misc.c$63$2$2 ==.
-;	../misc.c:63: uvalue = (uvalue >> 4);
+	C$misc.c$64$2$2 ==.
+;	../misc.c:64: uvalue = (uvalue >> 4);
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_uvalue_1_1
 	movx	a,@dptr
@@ -865,8 +869,8 @@ _int_to_hex_int:
 	inc	dptr
 	mov	a,r3
 	movx	@dptr,a
-	C$misc.c$64$2$2 ==.
-;	../misc.c:64: nibble_idx++;
+	C$misc.c$65$2$2 ==.
+;	../misc.c:65: nibble_idx++;
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_nibble_idx_1_1
 	movx	a,@dptr
@@ -884,8 +888,8 @@ _int_to_hex_int:
 	addc	a,ar3
 	inc	dptr
 	movx	@dptr,a
-	C$misc.c$65$1$1 ==.
-;	../misc.c:65: } while ( ( nibble_idx < NB_NIBBLES_IN_INT ) && ( uvalue > 0 ) );
+	C$misc.c$66$1$1 ==.
+;	../misc.c:66: } while ( ( nibble_idx < NB_NIBBLES_IN_INT ) && ( uvalue > 0 ) );
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_nibble_idx_1_1
 	movx	a,@dptr
@@ -920,8 +924,8 @@ _int_to_hex_int:
 	ljmp	00105$
 00123$:
 00107$:
-	C$misc.c$67$1$1 ==.
-;	../misc.c:67: nb_nibbles = nibble_idx;
+	C$misc.c$68$1$1 ==.
+;	../misc.c:68: nb_nibbles = nibble_idx;
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_nibble_idx_1_1
 	movx	a,@dptr
@@ -936,8 +940,8 @@ _int_to_hex_int:
 	inc	dptr
 	mov	a,r3
 	movx	@dptr,a
-	C$misc.c$68$1$1 ==.
-;	../misc.c:68: for ( nibble_idx = 0; (nibble_idx < nb_nibbles) && (nibble_idx < result_size) ;nibble_idx++ )
+	C$misc.c$69$1$1 ==.
+;	../misc.c:69: for ( nibble_idx = 0; (nibble_idx < nb_nibbles) && (nibble_idx < result_size) ;nibble_idx++ )
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_nibble_idx_1_1
 	clr	a
@@ -1015,8 +1019,8 @@ _int_to_hex_int:
 	jnz	00125$
 	ljmp	00112$
 00125$:
-	C$misc.c$70$1$1 ==.
-;	../misc.c:70: p_result[nibble_idx] = conv_array[nb_nibbles - nibble_idx - 1];
+	C$misc.c$71$1$1 ==.
+;	../misc.c:71: p_result[nibble_idx] = conv_array[nb_nibbles - nibble_idx - 1];
 ;	genIpush
 	push	ar2
 	push	ar3
@@ -1056,8 +1060,8 @@ _int_to_hex_int:
 	mov	b,(_int_to_hex_int_sloc1_1_0 + 2)
 	mov	a,r2
 	lcall	__gptrput
-	C$misc.c$68$1$1 ==.
-;	../misc.c:68: for ( nibble_idx = 0; (nibble_idx < nb_nibbles) && (nibble_idx < result_size) ;nibble_idx++ )
+	C$misc.c$69$1$1 ==.
+;	../misc.c:69: for ( nibble_idx = 0; (nibble_idx < nb_nibbles) && (nibble_idx < result_size) ;nibble_idx++ )
 ;	genPlus
 	mov	dptr,#_int_to_hex_int_nibble_idx_1_1
 ;	genPlusIncr
@@ -1073,8 +1077,8 @@ _int_to_hex_int:
 	pop	ar2
 	ljmp	00109$
 00112$:
-	C$misc.c$72$1$1 ==.
-;	../misc.c:72: return nibble_idx;
+	C$misc.c$73$1$1 ==.
+;	../misc.c:73: return nibble_idx;
 ;	genAssign
 	mov	dptr,#_int_to_hex_int_nibble_idx_1_1
 	movx	a,@dptr
@@ -1086,7 +1090,7 @@ _int_to_hex_int:
 	mov	dpl,r2
 	mov	dph,r3
 00113$:
-	C$misc.c$73$1$1 ==.
+	C$misc.c$74$1$1 ==.
 	XG$int_to_hex_int$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -1102,8 +1106,8 @@ _int_to_hex_int:
 ;nb_digits                 Allocated with name '_int_to_dec_int_nb_digits_1_1'
 ;------------------------------------------------------------
 	G$int_to_dec_int$0$0 ==.
-	C$misc.c$75$1$1 ==.
-;	../misc.c:75: DPUINT int_to_dec_int(DPUINT value, uint8_t * p_result)
+	C$misc.c$76$1$1 ==.
+;	../misc.c:76: DPUINT int_to_dec_int(DPUINT value, uint8_t * p_result)
 ;	-----------------------------------------
 ;	 function int_to_dec_int
 ;	-----------------------------------------
@@ -1116,8 +1120,8 @@ _int_to_dec_int:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$misc.c$83$1$1 ==.
-;	../misc.c:83: uvalue = (unsigned int)value;
+	C$misc.c$84$1$1 ==.
+;	../misc.c:84: uvalue = (unsigned int)value;
 ;	genAssign
 	mov	dptr,#_int_to_dec_int_value_1_1
 	movx	a,@dptr
@@ -1132,16 +1136,16 @@ _int_to_dec_int:
 	inc	dptr
 	mov	a,r3
 	movx	@dptr,a
-	C$misc.c$84$1$1 ==.
-;	../misc.c:84: digit_idx=0;
+	C$misc.c$85$1$1 ==.
+;	../misc.c:85: digit_idx=0;
 ;	genAssign
 	mov	dptr,#_int_to_dec_int_digit_idx_1_1
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	C$misc.c$85$1$1 ==.
-;	../misc.c:85: if (uvalue)
+	C$misc.c$86$1$1 ==.
+;	../misc.c:86: if (uvalue)
 ;	genIfx
 	mov	a,r2
 	orl	a,r3
@@ -1149,8 +1153,8 @@ _int_to_dec_int:
 	jnz	00117$
 	ljmp	00105$
 00117$:
-	C$misc.c$87$3$3 ==.
-;	../misc.c:87: while (uvalue)
+	C$misc.c$88$3$3 ==.
+;	../misc.c:88: while (uvalue)
 00101$:
 ;	genAssign
 	mov	dptr,#_int_to_dec_int_uvalue_1_1
@@ -1166,8 +1170,8 @@ _int_to_dec_int:
 	jnz	00118$
 	ljmp	00106$
 00118$:
-	C$misc.c$89$1$1 ==.
-;	../misc.c:89: remainder = uvalue % 10;
+	C$misc.c$90$1$1 ==.
+;	../misc.c:90: remainder = uvalue % 10;
 ;	genAssign
 	mov	dptr,#__moduint_PARM_2
 	mov	a,#0x0A
@@ -1175,8 +1179,8 @@ _int_to_dec_int:
 	clr	a
 	inc	dptr
 	movx	@dptr,a
-	C$misc.c$90$1$1 ==.
-;	../misc.c:90: conv_array[digit_idx] = remainder + '0';
+	C$misc.c$91$1$1 ==.
+;	../misc.c:91: conv_array[digit_idx] = remainder + '0';
 ;	genCall
 	mov	dpl,r2
 	mov	dph,r3
@@ -1211,8 +1215,8 @@ _int_to_dec_int:
 ;     genFarPointerSet
 	mov	a,r4
 	movx	@dptr,a
-	C$misc.c$91$1$1 ==.
-;	../misc.c:91: uvalue /= 10;
+	C$misc.c$92$1$1 ==.
+;	../misc.c:92: uvalue /= 10;
 ;	genAssign
 	mov	dptr,#__divuint_PARM_2
 	mov	a,#0x0A
@@ -1236,8 +1240,8 @@ _int_to_dec_int:
 	inc	dptr
 	mov	a,b
 	movx	@dptr,a
-	C$misc.c$92$3$3 ==.
-;	../misc.c:92: digit_idx++;
+	C$misc.c$93$3$3 ==.
+;	../misc.c:93: digit_idx++;
 ;	genPlus
 	mov	dptr,#_int_to_dec_int_digit_idx_1_1
 ;	genPlusIncr
@@ -1250,15 +1254,15 @@ _int_to_dec_int:
 	movx	@dptr,a
 	ljmp	00101$
 00105$:
-	C$misc.c$97$2$4 ==.
-;	../misc.c:97: conv_array[digit_idx] = '0';
+	C$misc.c$98$2$4 ==.
+;	../misc.c:98: conv_array[digit_idx] = '0';
 ;	genPointerSet
 ;     genFarPointerSet
 	mov	dptr,#_int_to_dec_int_conv_array_1_1
 	mov	a,#0x30
 	movx	@dptr,a
-	C$misc.c$98$2$4 ==.
-;	../misc.c:98: digit_idx++;
+	C$misc.c$99$2$4 ==.
+;	../misc.c:99: digit_idx++;
 ;	genAssign
 	mov	dptr,#_int_to_dec_int_digit_idx_1_1
 	mov	a,#0x01
@@ -1267,8 +1271,8 @@ _int_to_dec_int:
 	inc	dptr
 	movx	@dptr,a
 00106$:
-	C$misc.c$102$1$1 ==.
-;	../misc.c:102: nb_digits = digit_idx;
+	C$misc.c$103$1$1 ==.
+;	../misc.c:103: nb_digits = digit_idx;
 ;	genAssign
 	mov	dptr,#_int_to_dec_int_digit_idx_1_1
 	movx	a,@dptr
@@ -1283,8 +1287,8 @@ _int_to_dec_int:
 	inc	dptr
 	mov	a,r3
 	movx	@dptr,a
-	C$misc.c$103$1$1 ==.
-;	../misc.c:103: for ( digit_idx = 0; (digit_idx < nb_digits); digit_idx++ )
+	C$misc.c$104$1$1 ==.
+;	../misc.c:104: for ( digit_idx = 0; (digit_idx < nb_digits); digit_idx++ )
 ;	genAssign
 	mov	dptr,#_int_to_dec_int_digit_idx_1_1
 	clr	a
@@ -1327,8 +1331,8 @@ _int_to_dec_int:
 	jc	00119$
 	ljmp	00110$
 00119$:
-	C$misc.c$105$2$5 ==.
-;	../misc.c:105: p_result[digit_idx] = conv_array[nb_digits - digit_idx - 1];
+	C$misc.c$106$2$5 ==.
+;	../misc.c:106: p_result[digit_idx] = conv_array[nb_digits - digit_idx - 1];
 ;	genPlus
 	mov	a,ar7
 	add	a,_int_to_dec_int_sloc0_1_0
@@ -1368,8 +1372,8 @@ _int_to_dec_int:
 	mov	b,r3
 	mov	a,r4
 	lcall	__gptrput
-	C$misc.c$103$1$1 ==.
-;	../misc.c:103: for ( digit_idx = 0; (digit_idx < nb_digits); digit_idx++ )
+	C$misc.c$104$1$1 ==.
+;	../misc.c:104: for ( digit_idx = 0; (digit_idx < nb_digits); digit_idx++ )
 ;	genPlus
 	mov	dptr,#_int_to_dec_int_digit_idx_1_1
 ;	genPlusIncr
@@ -1385,13 +1389,13 @@ _int_to_dec_int:
 	pop	ar5
 	ljmp	00107$
 00110$:
-	C$misc.c$107$1$1 ==.
-;	../misc.c:107: return digit_idx;
+	C$misc.c$108$1$1 ==.
+;	../misc.c:108: return digit_idx;
 ;	genRet
 	mov	dpl,r7
 	mov	dph,r0
 00111$:
-	C$misc.c$108$1$1 ==.
+	C$misc.c$109$1$1 ==.
 	XG$int_to_dec_int$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -1406,8 +1410,8 @@ _int_to_dec_int:
 ;s                         Allocated with name '_xatoi_s_1_1'
 ;------------------------------------------------------------
 	G$xatoi$0$0 ==.
-	C$misc.c$115$1$1 ==.
-;	../misc.c:115: int xatoi (                                             /* 0:Failed, 1:Successful */
+	C$misc.c$116$1$1 ==.
+;	../misc.c:116: int xatoi (                                             /* 0:Failed, 1:Successful */
 ;	-----------------------------------------
 ;	 function xatoi
 ;	-----------------------------------------
@@ -1424,14 +1428,14 @@ _xatoi:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$misc.c$121$1$1 ==.
-;	../misc.c:121: unsigned char c, r, s = 0;
+	C$misc.c$122$1$1 ==.
+;	../misc.c:122: unsigned char c, r, s = 0;
 ;	genAssign
 	mov	dptr,#_xatoi_s_1_1
 	mov	a,#0x00
 	movx	@dptr,a
-	C$misc.c$124$1$1 ==.
-;	../misc.c:124: *res = 0;
+	C$misc.c$125$1$1 ==.
+;	../misc.c:125: *res = 0;
 ;	genAssign
 	mov	dptr,#_xatoi_PARM_2
 	movx	a,@dptr
@@ -1452,8 +1456,8 @@ _xatoi:
 	inc	dptr
 	mov	a,#0x00
 	lcall	__gptrput
-	C$misc.c$126$1$1 ==.
-;	../misc.c:126: while ((c = **str) == ' ') (*str)++;               /* Skip leading spaces */
+	C$misc.c$127$1$1 ==.
+;	../misc.c:127: while ((c = **str) == ' ') (*str)++;               /* Skip leading spaces */
 00101$:
 ;	genIpush
 	push	ar2
@@ -1553,8 +1557,8 @@ _xatoi:
 	pop	ar2
 	ljmp	00101$
 00103$:
-	C$misc.c$128$1$1 ==.
-;	../misc.c:128: if (c == '-') {                         /* negative? */
+	C$misc.c$129$1$1 ==.
+;	../misc.c:129: if (c == '-') {                         /* negative? */
 ;	genCmpEq
 ;	gencjneshort
 	cjne	r0,#0x2D,00159$
@@ -1562,8 +1566,8 @@ _xatoi:
 00159$:
 	ljmp	00105$
 00160$:
-	C$misc.c$129$1$1 ==.
-;	../misc.c:129: s = 1;
+	C$misc.c$130$1$1 ==.
+;	../misc.c:130: s = 1;
 ;	genIpush
 	push	ar2
 	push	ar3
@@ -1572,8 +1576,8 @@ _xatoi:
 	mov	dptr,#_xatoi_s_1_1
 	mov	a,#0x01
 	movx	@dptr,a
-	C$misc.c$130$2$2 ==.
-;	../misc.c:130: c = *(++(*str));
+	C$misc.c$131$2$2 ==.
+;	../misc.c:131: c = *(++(*str));
 ;	genPointerGet
 ;	genGenPointerGet
 	mov	dpl,r5
@@ -1617,17 +1621,17 @@ _xatoi:
 	mov	dptr,#_xatoi_c_1_1
 	mov	a,r0
 	movx	@dptr,a
-	C$misc.c$171$1$1 ==.
-;	../misc.c:171: return 1;
+	C$misc.c$172$1$1 ==.
+;	../misc.c:172: return 1;
 ;	genIpop
 	pop	ar4
 	pop	ar3
 	pop	ar2
-	C$misc.c$130$1$1 ==.
-;	../misc.c:130: c = *(++(*str));
+	C$misc.c$131$1$1 ==.
+;	../misc.c:131: c = *(++(*str));
 00105$:
-	C$misc.c$133$1$1 ==.
-;	../misc.c:133: if (c == '0') {
+	C$misc.c$134$1$1 ==.
+;	../misc.c:134: if (c == '0') {
 ;	genAssign
 	mov	dptr,#_xatoi_c_1_1
 	movx	a,@dptr
@@ -1639,8 +1643,8 @@ _xatoi:
 00162$:
 	ljmp	00121$
 00163$:
-	C$misc.c$134$1$1 ==.
-;	../misc.c:134: c = *(++(*str));
+	C$misc.c$135$1$1 ==.
+;	../misc.c:135: c = *(++(*str));
 ;	genIpush
 	push	ar2
 	push	ar3
@@ -1698,8 +1702,8 @@ _xatoi:
 	mov	dptr,#_xatoi_c_1_1
 	mov	a,r5
 	movx	@dptr,a
-	C$misc.c$135$2$3 ==.
-;	../misc.c:135: switch (c) {
+	C$misc.c$136$2$3 ==.
+;	../misc.c:136: switch (c) {
 ;	genCmpEq
 ;	gencjne
 ;	gencjneshort
@@ -1735,11 +1739,11 @@ _xatoi:
 00170$:
 	ljmp	00110$
 00171$:
-	C$misc.c$137$3$4 ==.
-;	../misc.c:137: case 'X':
+	C$misc.c$138$3$4 ==.
+;	../misc.c:138: case 'X':
 00107$:
-	C$misc.c$139$1$1 ==.
-;	../misc.c:139: r = 16; c = *(++(*str));
+	C$misc.c$140$1$1 ==.
+;	../misc.c:140: r = 16; c = *(++(*str));
 ;	genIpush
 	push	ar2
 	push	ar3
@@ -1801,18 +1805,18 @@ _xatoi:
 	mov	dptr,#_xatoi_c_1_1
 	mov	a,r1
 	movx	@dptr,a
-	C$misc.c$140$1$1 ==.
-;	../misc.c:140: break;
+	C$misc.c$141$1$1 ==.
+;	../misc.c:141: break;
 ;	genIpop
 	pop	ar4
 	pop	ar3
 	pop	ar2
 	ljmp	00122$
-	C$misc.c$142$3$4 ==.
-;	../misc.c:142: case 'B':
+	C$misc.c$143$3$4 ==.
+;	../misc.c:143: case 'B':
 00109$:
-	C$misc.c$144$1$1 ==.
-;	../misc.c:144: r = 2; c = *(++(*str));
+	C$misc.c$145$1$1 ==.
+;	../misc.c:145: r = 2; c = *(++(*str));
 ;	genIpush
 	push	ar2
 	push	ar3
@@ -1874,18 +1878,18 @@ _xatoi:
 	mov	dptr,#_xatoi_c_1_1
 	mov	a,r1
 	movx	@dptr,a
-	C$misc.c$145$1$1 ==.
-;	../misc.c:145: break;
+	C$misc.c$146$1$1 ==.
+;	../misc.c:146: break;
 ;	genIpop
 	pop	ar4
 	pop	ar3
 	pop	ar2
 	ljmp	00122$
-	C$misc.c$146$3$4 ==.
-;	../misc.c:146: default:
-00110$:
 	C$misc.c$147$3$4 ==.
-;	../misc.c:147: if (c <= ' ') return 1;          /* single zero */
+;	../misc.c:147: default:
+00110$:
+	C$misc.c$148$3$4 ==.
+;	../misc.c:148: if (c <= ' ') return 1;          /* single zero */
 ;	genCmpGt
 ;	genCmp
 	clr	c
@@ -1900,8 +1904,8 @@ _xatoi:
 	mov	dph,#0x00
 	ljmp	00136$
 00112$:
-	C$misc.c$148$3$4 ==.
-;	../misc.c:148: if (c < '0' || c > '9') return 0;          /* invalid char */
+	C$misc.c$149$3$4 ==.
+;	../misc.c:149: if (c < '0' || c > '9') return 0;          /* invalid char */
 ;	genCmpLt
 ;	genCmp
 	cjne	r5,#0x30,00175$
@@ -1925,18 +1929,18 @@ _xatoi:
 	mov	dph,#0x00
 	ljmp	00136$
 00114$:
-	C$misc.c$149$3$4 ==.
-;	../misc.c:149: r = 8;                      /* octal */
+	C$misc.c$150$3$4 ==.
+;	../misc.c:150: r = 8;                      /* octal */
 ;	genAssign
 	mov	dptr,#_xatoi_r_1_1
 	mov	a,#0x08
 	movx	@dptr,a
-	C$misc.c$150$1$1 ==.
-;	../misc.c:150: }
+	C$misc.c$151$1$1 ==.
+;	../misc.c:151: }
 	ljmp	00122$
 00121$:
-	C$misc.c$152$2$5 ==.
-;	../misc.c:152: if (c < '0' || c > '9') return 0;          /* EOL or invalid char */
+	C$misc.c$153$2$5 ==.
+;	../misc.c:153: if (c < '0' || c > '9') return 0;          /* EOL or invalid char */
 ;	genCmpLt
 ;	genCmp
 	cjne	r5,#0x30,00178$
@@ -1960,15 +1964,15 @@ _xatoi:
 	mov	dph,#0x00
 	ljmp	00136$
 00118$:
-	C$misc.c$153$2$5 ==.
-;	../misc.c:153: r = 10;                                    /* decimal */
+	C$misc.c$154$2$5 ==.
+;	../misc.c:154: r = 10;                                    /* decimal */
 ;	genAssign
 	mov	dptr,#_xatoi_r_1_1
 	mov	a,#0x0A
 	movx	@dptr,a
 00122$:
-	C$misc.c$156$1$1 ==.
-;	../misc.c:156: val = 0;
+	C$misc.c$157$1$1 ==.
+;	../misc.c:157: val = 0;
 ;	genAssign
 	mov	dptr,#_xatoi_val_1_1
 	clr	a
@@ -1979,8 +1983,8 @@ _xatoi:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	C$misc.c$157$1$1 ==.
-;	../misc.c:157: while (c > ' ') {
+	C$misc.c$158$1$1 ==.
+;	../misc.c:158: while (c > ' ') {
 00131$:
 ;	genAssign
 	mov	dptr,#_xatoi_c_1_1
@@ -1995,8 +1999,8 @@ _xatoi:
 	jc	00181$
 	ljmp	00133$
 00181$:
-	C$misc.c$158$2$6 ==.
-;	../misc.c:158: if (c >= 'a') c -= 0x20;
+	C$misc.c$159$2$6 ==.
+;	../misc.c:159: if (c >= 'a') c -= 0x20;
 ;	genCmpLt
 ;	genCmp
 	cjne	r5,#0x61,00182$
@@ -2012,8 +2016,8 @@ _xatoi:
 	mov	dptr,#_xatoi_c_1_1
 	movx	@dptr,a
 00124$:
-	C$misc.c$159$2$6 ==.
-;	../misc.c:159: c -= '0';
+	C$misc.c$160$2$6 ==.
+;	../misc.c:160: c -= '0';
 ;	genAssign
 	mov	dptr,#_xatoi_c_1_1
 	movx	a,@dptr
@@ -2024,8 +2028,8 @@ _xatoi:
 ;	genAssign
 	mov	dptr,#_xatoi_c_1_1
 	movx	@dptr,a
-	C$misc.c$160$2$6 ==.
-;	../misc.c:160: if (c >= 17) {
+	C$misc.c$161$2$6 ==.
+;	../misc.c:161: if (c >= 17) {
 ;	genAssign
 	mov	dptr,#_xatoi_c_1_1
 	movx	a,@dptr
@@ -2038,16 +2042,16 @@ _xatoi:
 	jnc	00185$
 	ljmp	00128$
 00185$:
-	C$misc.c$161$3$7 ==.
-;	../misc.c:161: c -= 7;
+	C$misc.c$162$3$7 ==.
+;	../misc.c:162: c -= 7;
 ;	genMinus
 	mov	a,r5
 	add	a,#0xf9
 ;	genAssign
 	mov	dptr,#_xatoi_c_1_1
 	movx	@dptr,a
-	C$misc.c$162$3$7 ==.
-;	../misc.c:162: if (c <= 9) return 0;           /* invalid char */
+	C$misc.c$163$3$7 ==.
+;	../misc.c:163: if (c <= 9) return 0;           /* invalid char */
 ;	genAssign
 	mov	dptr,#_xatoi_c_1_1
 	movx	a,@dptr
@@ -2066,8 +2070,8 @@ _xatoi:
 	mov	dph,#0x00
 	ljmp	00136$
 00128$:
-	C$misc.c$164$2$6 ==.
-;	../misc.c:164: if (c >= r) return 0;                           /* invalid char for current radix */
+	C$misc.c$165$2$6 ==.
+;	../misc.c:165: if (c >= r) return 0;                           /* invalid char for current radix */
 ;	genAssign
 	mov	dptr,#_xatoi_c_1_1
 	movx	a,@dptr
@@ -2090,8 +2094,8 @@ _xatoi:
 	mov	dph,#0x00
 	ljmp	00136$
 00130$:
-	C$misc.c$165$1$1 ==.
-;	../misc.c:165: val = val * r + c;
+	C$misc.c$166$1$1 ==.
+;	../misc.c:166: val = val * r + c;
 ;	genIpush
 	push	ar2
 	push	ar3
@@ -2155,8 +2159,8 @@ _xatoi:
 	addc	a,ar6
 	inc	dptr
 	movx	@dptr,a
-	C$misc.c$166$2$6 ==.
-;	../misc.c:166: c = *(++(*str));
+	C$misc.c$167$2$6 ==.
+;	../misc.c:167: c = *(++(*str));
 ;	genAssign
 	mov	dptr,#_xatoi_str_1_1
 	movx	a,@dptr
@@ -2216,8 +2220,8 @@ _xatoi:
 	pop	ar2
 	ljmp	00131$
 00133$:
-	C$misc.c$168$1$1 ==.
-;	../misc.c:168: if (s) val = 0 - val;                                               /* apply sign if needed */
+	C$misc.c$169$1$1 ==.
+;	../misc.c:169: if (s) val = 0 - val;                                               /* apply sign if needed */
 ;	genAssign
 	mov	dptr,#_xatoi_s_1_1
 	movx	a,@dptr
@@ -2260,8 +2264,8 @@ _xatoi:
 	inc	dptr
 	movx	@dptr,a
 00135$:
-	C$misc.c$170$1$1 ==.
-;	../misc.c:170: *res = val;
+	C$misc.c$171$1$1 ==.
+;	../misc.c:171: *res = val;
 ;	genAssign
 	mov	dptr,#_xatoi_val_1_1
 	movx	a,@dptr
@@ -2286,13 +2290,13 @@ _xatoi:
 	inc	dptr
 	mov	a,r6
 	lcall	__gptrput
-	C$misc.c$171$1$1 ==.
-;	../misc.c:171: return 1;
+	C$misc.c$172$1$1 ==.
+;	../misc.c:172: return 1;
 ;	genRet
 	mov	dpl,#0x01
 	mov	dph,#0x00
 00136$:
-	C$misc.c$172$1$1 ==.
+	C$misc.c$173$1$1 ==.
 	XG$xatoi$0$0 ==.
 	ret
 ;------------------------------------------------------------
@@ -2302,8 +2306,8 @@ _xatoi:
 ;parity                    Allocated with name '_getParity_parity_1_1'
 ;------------------------------------------------------------
 	G$getParity$0$0 ==.
-	C$misc.c$175$1$1 ==.
-;	../misc.c:175: uint8_t  getParity(unsigned int n)
+	C$misc.c$176$1$1 ==.
+;	../misc.c:176: uint8_t  getParity(unsigned int n)
 ;	-----------------------------------------
 ;	 function getParity
 ;	-----------------------------------------
@@ -2316,14 +2320,14 @@ _getParity:
 	inc	dptr
 	mov	a,r2
 	movx	@dptr,a
-	C$misc.c$177$1$1 ==.
-;	../misc.c:177: uint8_t parity = 0;
+	C$misc.c$178$1$1 ==.
+;	../misc.c:178: uint8_t parity = 0;
 ;	genAssign
 	mov	dptr,#_getParity_parity_1_1
 	mov	a,#0x00
 	movx	@dptr,a
-	C$misc.c$178$1$1 ==.
-;	../misc.c:178: while (n)
+	C$misc.c$179$1$1 ==.
+;	../misc.c:179: while (n)
 00101$:
 ;	genAssign
 	mov	dptr,#_getParity_n_1_1
@@ -2339,8 +2343,8 @@ _getParity:
 	jnz	00108$
 	ljmp	00103$
 00108$:
-	C$misc.c$180$2$2 ==.
-;	../misc.c:180: parity = !parity;
+	C$misc.c$181$2$2 ==.
+;	../misc.c:181: parity = !parity;
 ;	genAssign
 	mov	dptr,#_getParity_parity_1_1
 	movx	a,@dptr
@@ -2353,8 +2357,8 @@ _getParity:
 	clr	a
 	rlc	a
 	movx	@dptr,a
-	C$misc.c$181$2$2 ==.
-;	../misc.c:181: n      = n & (n - 1);
+	C$misc.c$182$2$2 ==.
+;	../misc.c:182: n      = n & (n - 1);
 ;	genMinus
 ;	genMinusDec
 	mov	a,r2
@@ -2374,8 +2378,8 @@ _getParity:
 	movx	@dptr,a
 	ljmp	00101$
 00103$:
-	C$misc.c$183$1$1 ==.
-;	../misc.c:183: return parity;
+	C$misc.c$184$1$1 ==.
+;	../misc.c:184: return parity;
 ;	genAssign
 	mov	dptr,#_getParity_parity_1_1
 	movx	a,@dptr
@@ -2383,7 +2387,7 @@ _getParity:
 ;	genRet
 	mov	dpl,r2
 00104$:
-	C$misc.c$184$1$1 ==.
+	C$misc.c$185$1$1 ==.
 	XG$getParity$0$0 ==.
 	ret
 	.area CSEG    (CODE)

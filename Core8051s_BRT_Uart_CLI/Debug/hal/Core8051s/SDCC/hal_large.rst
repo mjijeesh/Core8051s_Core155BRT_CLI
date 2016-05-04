@@ -161,31 +161,31 @@
                             161 ;--------------------------------------------------------
                             162 	.area XSEG    (XDATA)
                             163 
-   058E                     164 _HW_get_32bit_reg_reg_addr_1_1:
-   058E                     165 	.ds 2
+   058F                     164 _HW_get_32bit_reg_reg_addr_1_1:
+   058F                     165 	.ds 2
                             166 
-   0590                     167 _HW_get_32bit_reg_dummy_1_1:
-   0590                     168 	.ds 2
+   0591                     167 _HW_get_32bit_reg_dummy_1_1:
+   0591                     168 	.ds 2
                             169 
-   0592                     170 _HW_get_32bit_reg_ret_val_1_1:
-   0592                     171 	.ds 4
+   0593                     170 _HW_get_32bit_reg_ret_val_1_1:
+   0593                     171 	.ds 4
                             172 
-   0596                     173 _HW_set_32bit_reg_ret_val_1_1:
-   0596                     174 	.ds 4
+   0597                     173 _HW_set_32bit_reg_ret_val_1_1:
+   0597                     174 	.ds 4
                             175 
-   059A                     176 _HW_set_16bit_reg_PARM_2:
-   059A                     177     .ds 2
+   059B                     176 _HW_set_16bit_reg_PARM_2:
+   059B                     177     .ds 2
                             178 
-   059C                     179 _HW_set_8bit_reg_PARM_2:
-   059C                     180     .ds 1
+   059D                     179 _HW_set_8bit_reg_PARM_2:
+   059D                     180     .ds 1
                             181 
                             182 ;===============================================================================
                             183 ; external ram data
                             184 ;===============================================================================
                             185 	.area XSEG    (XDATA)
                             186 
-   059D                     187 _HW_set_32bit_reg_PARM_2:
-   059D                     188 	.ds 4
+   059E                     187 _HW_set_32bit_reg_PARM_2:
+   059E                     188 	.ds 4
                             189 
                             190 	.area XISEG   (XDATA)
                             191 	.area HOME    (CODE)
@@ -218,137 +218,137 @@
                             218 ; HW_get_32bit_reg
                             219 ;
                     0000    220 	G$HW_get_32bit_reg$0$0 ==.
-   1B9F                     221 _HW_get_32bit_reg:
-   1B9F E0                  222 	MOVX 	A,@DPTR
-   1BA0 F5 82               223 	MOV  	DPL,A
-   1BA2 85 9D 83            224 	MOV  	DPH,XRB1
-   1BA5 85 9E F0            225 	MOV  	B,XRB2
-   1BA8 E5 9F               226 	MOV  	A,XRB3
-   1BAA                     227 00101$:
+   1C2C                     221 _HW_get_32bit_reg:
+   1C2C E0                  222 	MOVX 	A,@DPTR
+   1C2D F5 82               223 	MOV  	DPL,A
+   1C2F 85 9D 83            224 	MOV  	DPH,XRB1
+   1C32 85 9E F0            225 	MOV  	B,XRB2
+   1C35 E5 9F               226 	MOV  	A,XRB3
+   1C37                     227 00101$:
                     000B    228 	XG$HW_get_32bit_reg$0$0 ==.
                             229 
-   1BAA 22                  230 	RET  	
+   1C37 22                  230 	RET  	
                             231 
                             232 ;-------------------------------------------------------------------------------
                             233 ; HW_set_32bit_reg
                             234 ;
                     000C    235 	G$HW_set_32bit_reg$0$0 ==.
-   1BAB                     236 _HW_set_32bit_reg:
-   1BAB C0 83               237 	PUSH    DPH
-   1BAD C0 82               238 	PUSH    DPL	   
-   1BAF 90 05 9E            239 	MOV     DPTR,#_HW_set_32bit_reg_PARM_2 + 1
-   1BB2 E0                  240 	MOVX	A,@DPTR
-   1BB3 F5 9A               241 	MOV     XWB1,A
-   1BB5 A3                  242 	INC		DPTR
-   1BB6 E0                  243 	MOVX	A,@DPTR
-   1BB7 F5 9B               244 	MOV     XWB2,A
-   1BB9 A3                  245 	INC		DPTR
-   1BBA E0                  246 	MOVX	A,@DPTR
-   1BBB F5 9C               247 	MOV     XWB3,A
-   1BBD 90 05 9D            248 	MOV     DPTR,#_HW_set_32bit_reg_PARM_2
-   1BC0 E0                  249 	MOVX	A,@DPTR
-   1BC1 D0 82               250 	POP     DPL
-   1BC3 D0 83               251 	POP     DPH
-   1BC5 F0                  252 	MOVX 	@DPTR,A
-   1BC6                     253 00101$:
+   1C38                     236 _HW_set_32bit_reg:
+   1C38 C0 83               237 	PUSH    DPH
+   1C3A C0 82               238 	PUSH    DPL	   
+   1C3C 90 05 9F            239 	MOV     DPTR,#_HW_set_32bit_reg_PARM_2 + 1
+   1C3F E0                  240 	MOVX	A,@DPTR
+   1C40 F5 9A               241 	MOV     XWB1,A
+   1C42 A3                  242 	INC		DPTR
+   1C43 E0                  243 	MOVX	A,@DPTR
+   1C44 F5 9B               244 	MOV     XWB2,A
+   1C46 A3                  245 	INC		DPTR
+   1C47 E0                  246 	MOVX	A,@DPTR
+   1C48 F5 9C               247 	MOV     XWB3,A
+   1C4A 90 05 9E            248 	MOV     DPTR,#_HW_set_32bit_reg_PARM_2
+   1C4D E0                  249 	MOVX	A,@DPTR
+   1C4E D0 82               250 	POP     DPL
+   1C50 D0 83               251 	POP     DPH
+   1C52 F0                  252 	MOVX 	@DPTR,A
+   1C53                     253 00101$:
                     0027    254 	XG$HW_set_32bit_reg$0$0 ==.
                             255 
-   1BC6 22                  256 	RET  	
+   1C53 22                  256 	RET  	
                             257 
                             258 ;-------------------------------------------------------------------------------
                             259 ; HW_set_16bit_reg
                             260 ;
                     0028    261     G$HW_set_16bit_reg$0$0 ==.
-   1BC7                     262 _HW_set_16bit_reg:
-   1BC7 C0 83               263     PUSH    DPH
-   1BC9 C0 82               264     PUSH    DPL    
-   1BCB 90 05 9B            265     MOV     DPTR,#_HW_set_16bit_reg_PARM_2 + 1
-   1BCE E0                  266     MOVX    A,@DPTR
-   1BCF F5 9A               267     MOV     XWB1,A
-   1BD1 90 05 9A            268     MOV     DPTR,#_HW_set_16bit_reg_PARM_2
-   1BD4 E0                  269     MOVX    A,@DPTR
-   1BD5 D0 82               270     POP     DPL
-   1BD7 D0 83               271     POP     DPH
-   1BD9 F0                  272     MOVX    @DPTR,A
-   1BDA                     273 00101$:
+   1C54                     262 _HW_set_16bit_reg:
+   1C54 C0 83               263     PUSH    DPH
+   1C56 C0 82               264     PUSH    DPL    
+   1C58 90 05 9C            265     MOV     DPTR,#_HW_set_16bit_reg_PARM_2 + 1
+   1C5B E0                  266     MOVX    A,@DPTR
+   1C5C F5 9A               267     MOV     XWB1,A
+   1C5E 90 05 9B            268     MOV     DPTR,#_HW_set_16bit_reg_PARM_2
+   1C61 E0                  269     MOVX    A,@DPTR
+   1C62 D0 82               270     POP     DPL
+   1C64 D0 83               271     POP     DPH
+   1C66 F0                  272     MOVX    @DPTR,A
+   1C67                     273 00101$:
                     003B    274     XG$HW_set_16bit_reg$0$0 ==.
                             275 
-   1BDA 22                  276     RET
+   1C67 22                  276     RET
                             277 
                             278 ;-------------------------------------------------------------------------------
                             279 ; HW_get_16bit_reg
                             280 ;
                     003C    281     G$HW_get_16bit_reg$0$0 ==.
-   1BDB                     282 _HW_get_16bit_reg:
-   1BDB E0                  283     MOVX    A,@DPTR
-   1BDC F5 82               284     MOV     DPL,A
-   1BDE 85 9D 83            285     MOV     DPH,XRB1
+   1C68                     282 _HW_get_16bit_reg:
+   1C68 E0                  283     MOVX    A,@DPTR
+   1C69 F5 82               284     MOV     DPL,A
+   1C6B 85 9D 83            285     MOV     DPH,XRB1
                             286 
-   1BE1                     287 00101$:
+   1C6E                     287 00101$:
                     0042    288     XG$HW_get_16bit_reg$0$0 ==.
                             289 
-   1BE1 22                  290     RET
+   1C6E 22                  290     RET
                             291     
                             292 ;-------------------------------------------------------------------------------
                             293 ; HW_set_8bit_reg
                             294 ;
                     0043    295     G$HW_set_8bit_reg$0$0 ==.
-   1BE2                     296 _HW_set_8bit_reg:
-   1BE2 C0 83               297     PUSH    DPH
-   1BE4 C0 82               298     PUSH    DPL    
-   1BE6 90 05 9C            299     MOV     DPTR,#_HW_set_8bit_reg_PARM_2
-   1BE9 E0                  300     MOVX    A, @DPTR
-   1BEA D0 82               301     POP     DPL
-   1BEC D0 83               302     POP     DPH
-   1BEE F0                  303     MOVX    @DPTR,A
+   1C6F                     296 _HW_set_8bit_reg:
+   1C6F C0 83               297     PUSH    DPH
+   1C71 C0 82               298     PUSH    DPL    
+   1C73 90 05 9D            299     MOV     DPTR,#_HW_set_8bit_reg_PARM_2
+   1C76 E0                  300     MOVX    A, @DPTR
+   1C77 D0 82               301     POP     DPL
+   1C79 D0 83               302     POP     DPH
+   1C7B F0                  303     MOVX    @DPTR,A
                             304 
-   1BEF                     305 00101$:
+   1C7C                     305 00101$:
                     0050    306     XG$HW_set_8bit_reg$0$0 ==.
                             307 
-   1BEF 22                  308     RET
+   1C7C 22                  308     RET
                             309 
                             310 ;-------------------------------------------------------------------------------
                             311 ; HW_get_8bit_reg
                             312 ;
                     0051    313     G$HW_get_8bit_reg$0$0 ==.
-   1BF0                     314 _HW_get_8bit_reg:
-   1BF0 E0                  315     MOVX    A,@DPTR
-   1BF1 F5 82               316     MOV     DPL,A
-   1BF3                     317 00101$:
+   1C7D                     314 _HW_get_8bit_reg:
+   1C7D E0                  315     MOVX    A,@DPTR
+   1C7E F5 82               316     MOV     DPL,A
+   1C80                     317 00101$:
                     0054    318     XG$HW_get_8bit_reg$0$0 ==.
-   1BF3 22                  319     RET
+   1C80 22                  319     RET
                             320 
                             321 ;-------------------------------------------------------------------------------
                             322 ; HAL_enable_interrupts
                             323 ;
                     0055    324     G$HAL_enable_interrupts$0$0 ==.
-   1BF4                     325 _HAL_enable_interrupts:
-   1BF4 75 AF 80            326     MOV     EA,#0x80
+   1C81                     325 _HAL_enable_interrupts:
+   1C81 75 AF 80            326     MOV     EA,#0x80
                             327 
-   1BF7                     328 00101$:
+   1C84                     328 00101$:
                     0058    329     XG$HAL_enable_interrupts$0$0 ==.
-   1BF7 22                  330     RET
+   1C84 22                  330     RET
                             331 
                             332 ;-------------------------------------------------------------------------------
                             333 ; HAL_disable_interrupts
                             334 ;
                     0059    335     G$HAL_disable_interrupts$0$0 ==.
-   1BF8                     336 _HAL_disable_interrupts:
-   1BF8 85 AF 82            337     MOV     DPL,EA
-   1BFB 75 AF 00            338     MOV     EA,#0x00
-   1BFE                     339 00101$:
+   1C85                     336 _HAL_disable_interrupts:
+   1C85 85 AF 82            337     MOV     DPL,EA
+   1C88 75 AF 00            338     MOV     EA,#0x00
+   1C8B                     339 00101$:
                     005F    340     XG$HAL_disable_interrupts$0$0 ==.
-   1BFE 22                  341     RET
+   1C8B 22                  341     RET
                             342 
                             343 ;-------------------------------------------------------------------------------
                             344 ; HAL_restore_interrupts
                             345 ;
                     0060    346     G$HAL_restore_interrupts$0$0 ==.
-   1BFF                     347 _HAL_restore_interrupts:
-   1BFF 85 82 AF            348     MOV     EA,DPL
-   1C02                     349 00101$:
+   1C8C                     347 _HAL_restore_interrupts:
+   1C8C 85 82 AF            348     MOV     EA,DPL
+   1C8F                     349 00101$:
                     0063    350     XG$HAL_restore_interrupts$0$0 ==.
-   1C02 22                  351     RET
+   1C8F 22                  351     RET
                             352 
                             353 ;-------------------------------------------------------------------------------
                             354     

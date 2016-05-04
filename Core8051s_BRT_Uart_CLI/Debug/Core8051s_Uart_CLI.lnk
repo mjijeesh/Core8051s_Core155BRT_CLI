@@ -11,7 +11,7 @@
 -l liblong
 -l libfloat
 ./cli.rel
-./main_org.rel
+./main.rel
 ./misc.rel
 ./hal/Core8051s/SDCC/hal_assert.rel
 ./hal/Core8051s/SDCC/hal_large.rel

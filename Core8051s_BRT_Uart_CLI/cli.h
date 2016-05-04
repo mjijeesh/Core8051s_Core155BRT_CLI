@@ -24,6 +24,7 @@ void display_prompt(void);
 void display_help(void);
 void process_uart_data(uint8_t key);
 void display_mem_data(void);
+void  display_brt_sa ( void);
 
 
 #endif /* CLI_H_ */

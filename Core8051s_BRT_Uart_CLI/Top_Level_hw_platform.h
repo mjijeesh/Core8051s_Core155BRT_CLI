@@ -28,5 +28,8 @@
 #define SRAM2_REG_OFFSET                0x10
 
 
+UART_instance_t g_stdio_uart;
+
+
 
 #endif /* Top_Level_HW_PLATFORM_H_*/
