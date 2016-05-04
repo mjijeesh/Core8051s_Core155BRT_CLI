@@ -8606,3 +8606,12 @@ org.eclipse.cdt.debug.mi.core.MIException: putpkt: write failed: No error.
 	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:866)
 	at org.eclipse.debug.internal.ui.DebugUIPlugin$7.run(DebugUIPlugin.java:952)
 	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
+!SESSION 2016-05-04 10:25:22.920 -----------------------------------------------
+eclipse.buildId=M20130329-1600
+java.version=1.6.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_IN
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.cdt.core 1 0 2016-05-04 10:55:37.727
+!MESSAGE Indexed 'Core8051s_BRT_Uart_CLI_V2' (9 sources, 24 headers) in 0.25 sec: 608 declarations; 1,734 references; 12 unresolved inclusions; 0 syntax errors; 297 unresolved names (11.25%)

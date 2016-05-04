@@ -1,0 +1,499 @@
+#include "core_gpio.h"  /* For getting GPIO read/write functions */
+#include "core_uart_apb.h"
+#include "socDefs.h"
+#include "hal.h"
+
+#include "Top_Level_hw_platform.h"
+
+#include "cli.h"
+#include "brt.h"
+
+
+uint32_t user_input = 0;
+uint8_t current_rt_subaddr= BRT_RX_SA1;
+uint8_t current_sub_addr;
+uint8_t last_msg_no;
+uint8_t  temp;
+
+#define CHAR_LINE_FEED         13
+#define CHAR_ESC               27
+#define  BRT_SUBADDR_DATA_COUNT   32
+
+
+void display_help(void){
+	uint8_t tx_data[24][40] = {
+
+	      {"\r\nR Read BRT Register  		   "},
+	      {"\r\nM Modify  BRT TX Buffer 		   "},
+	      {"\r\nD Display BRT  TX/RX Buffer Data"},
+	      {"\r\nB Display BC messages        "},
+	      {"\r\nX Start BRM BC               "},
+	      {"\r\nC Change the BRT Address(Default:0x4 "},
+	      {"\r\nN change the BC Data values   "},
+	      {"\r\nH Display This Menu        \r\n"}
+	 };
+
+	      UART_send(&g_stdio_uart, tx_data[0],sizeof(tx_data));
+
+
+}
+
+/* Display the Prompt for the User Interaction */
+
+void display_prompt(void) {
+
+	dp_display_text("\r\nCore1553BRT>");
+
+
+}
+
+/* Decode the Key pressed by the User to select the Apropriate Action */
+
+uint8_t get_key_selection(void)
+{
+
+      uint8_t rx_data;
+      uint8_t rx_size =0;
+
+
+
+           do {
+               rx_size = UART_get_rx(&g_stdio_uart, &rx_data,1);
+           }while(rx_size == 0);
+
+           //dp_display_text("\n\r Selected fuction is: ");
+           UART_send (&g_stdio_uart, &rx_data,sizeof (rx_data));
+           return rx_data;
+
+    }
+
+
+/* This function reads the user input such as address and data required for any
+ * memory read/write operation
+ *
+ *  */
+		void read_user_input (uint8_t *rx_char_ptr)
+		{
+		    uint8_t recv_char=0;
+		    uint8_t size=0;
+		    uint8_t index = 0;
+		    for(index = 0; index < 10; index++)
+		    {
+		    	rx_char[index] = '0';
+		    }
+		    index = 0;
+		    while(recv_char != CHAR_LINE_FEED)  //'\n'
+		    {
+		      size = UART_get_rx(&g_stdio_uart, &recv_char,1);
+			  if(size > 0)
+			  {
+
+				  rx_char_ptr[index] = recv_char;
+				  UART_send (&g_stdio_uart, (uint8_t *)&recv_char,sizeof(recv_char));
+				  index++;
+				  size = 0; // clear the rcvd flag
+			  }
+			}
+
+		}
+
+/* Display the contents of BRT Control and Status Registers
+ * These are located at offset 0x1f80
+ * Total number of registers 32
+ */
+
+void display_brt_regs(void){
+
+			 uint32_t  mem_addr,mem_data;
+			 //uint32_t   bc_reg[16];
+			 uint8   i;
+			mem_addr  = ( APB3_BASE_ADDRESS + CORE1553BRT_0) + BRT_REG_OFFSET ;  // base address of BRT instance, 32location from here onwards
+
+			 dp_display_text("\n\r BRT Register Contents\r\n ");
+			 for ( i=0; i<= 32 ;i++) {
+			   dp_display_text("\r\n");
+			   dp_display_value(i,DEC);
+			   dp_display_text("\t");
+			   dp_display_value(mem_addr,HEX);
+			   dp_display_text("\t");
+			   mem_data = HW_get_16bit_reg(mem_addr);
+			   dp_display_value(mem_data,HEX);
+			   mem_addr = mem_addr++;
+			 }
+		 }
+
+
+
+/* Display Contents of BRT Sub addresses.
+ *
+ *
+ * */
+
+void display_brt_data(uint32_t brt_baseaddr,uint8_t subaddr){
+
+			 uint16_t   mem_addr,mem_data;
+			 uint16_t   tx_sub_address,rx_sub_address;
+
+			 uint8_t   i,m;
+
+			 mem_addr  = (APB3_BASE_ADDRESS +  brt_baseaddr);  // 16 location from here onwards
+
+			 rx_sub_address = mem_addr + (BRT_RX_SA1 * subaddr);   //0x1080
+			 tx_sub_address = rx_sub_address + BRT_RX_TX_ADDR_OFSET;
+
+			 dp_display_text("\n\r BRT SA");
+			 dp_display_value(subaddr,DEC);
+			 dp_display_text("   RX Buffer\r\n");
+
+			 for ( i=1; i <= 4 ;i++) {
+				dp_display_text("\r\n");
+				dp_display_value(i,DEC);
+				dp_display_text("\t");
+				dp_display_value(rx_sub_address ,HEX);// ( 8* i) for calculating current address of the total 32 location
+				dp_display_text("\t");
+
+				for (m=1; m <=8 ;m++){
+
+				  mem_data= HW_get_16bit_reg(rx_sub_address);
+				 dp_display_value(mem_data,HEX);
+				 dp_display_text("\t");
+				 rx_sub_address = rx_sub_address + 1;
+				}
+
+			 }
+
+
+			 dp_display_text("\n\r BRT SA");
+			 dp_display_value(subaddr,DEC);
+			 dp_display_text("  TX Buffer\r\n");
+
+			 			 for ( i=1; i <= 4 ;i++) {
+			 				dp_display_text("\r\n");
+			 				dp_display_value(i,DEC);
+			 				dp_display_text("\t");
+			 				dp_display_value(tx_sub_address,HEX);
+			 				dp_display_text("\t");
+
+			 				for (m=1; m <=8 ;m++){
+
+			 				  mem_data= HW_get_16bit_reg(tx_sub_address);
+			 				 dp_display_value(mem_data,HEX);
+			 				 dp_display_text("\t");
+			 				tx_sub_address = tx_sub_address + 1;
+			 				}
+
+			 			 }
+
+		 }
+
+
+
+
+/*  Process the User Input Selection and display teh Relevent data */
+
+
+void process_uart_data(uint8_t key)
+		   {
+			   switch(key)
+		       {
+
+				   case 'R' : case 'r':
+			   	   {
+			   			//print_registers();
+			   		display_brt_regs();
+
+
+
+			   		break;
+			   	   }
+
+
+
+				   case 'H': case 'h':
+				  	    {
+
+				   		display_help();
+                        break;
+				  	    }
+
+				   case 'D': case 'd':
+					   {
+
+						   current_sub_addr = validate_brt_sa_input();
+						    if ( current_sub_addr > 0) {   // 0 mean esc from current operation
+                        	    display_brt_data(CORE1553BRT_0 ,current_sub_addr);
+						    }
+							break;
+
+					   }
+
+
+				   case 'M': case 'm':
+				  	{
+				  		 uint16_t brt_tx_data_addr;
+
+				  		current_sub_addr = validate_brt_sa_input();
+				       if ( current_sub_addr > 0) {   // 0 mean esc from current
+				    	   brt_tx_data_addr = ( CORE1553BRT_BASE_ADDR + (BRT_RX_SA1 * current_sub_addr) +BRT_RX_TX_ADDR_OFSET) ;   //0x1080
+				    	   modify_mem_data (brt_tx_data_addr,BRT_SUBADDR_DATA_COUNT);
+				       }
+					   break;
+
+
+					}
+
+				   case 'c': case 'C':
+
+					   {
+						   uint8_t brt_rtaddr;
+						   dp_display_text("Enter New RTADDR # ( 0 to 30): ");
+					       brt_rtaddr = get_data_input ();
+
+							if ((brt_rtaddr >= 0 ) && (brt_rtaddr < 31))
+								{
+								modify_rt_address(CORE1553BRT_BASE_ADDR, brt_rtaddr);
+								 break;
+
+								} else {
+
+							   dp_display_text("\r\n\Invaid input !!!!! Enter  Address # ( 0 to 30): ");
+							   break;
+
+								}
+
+						}
+								   break;
+					}
+
+
+
+
+
+
+
+				   default:  /* If selected key is out of range */
+				   {
+
+					   break;
+				   }
+		       }
+
+
+			   display_prompt();
+
+		   }
+
+
+
+
+
+/* This functions gets a user input from terminal and display the memory data for the correspendign SA */
+void  display_brt_sa ( void) {
+	  uint8_t  subaddr;
+
+							while (1) {
+							dp_display_text("Sub Address #(1 to 31 ): ");
+							rx_char_ptr = rx_char;
+							read_user_input(rx_char_ptr);
+							xatoi ( &rx_char_ptr, &subaddr);
+							dp_display_text("\r\nInput recived :  ");
+							dp_display_value(subaddr,HEX);
+
+							if ((subaddr > 0 ) && (subaddr < 32))
+								{
+
+								display_brt_data(CORE1553BRT_0 ,subaddr);
+
+								 break;
+
+								}
+							   else {
+
+								   dp_display_text("\r\n\Invaid input !!!!! Enter the Sub Address # ( 1 to 31)to display Data: ");
+
+									}
+
+						   }
+
+
+}
+
+
+/* This function will get teh Input from Terminal and check for valid input for the SA */
+uint8_t  validate_brt_sa_input ( void) {
+	uint8_t  subaddr;
+
+
+	dp_display_text("Sub Address #(1 to 31 ): ");
+	rx_char_ptr = rx_char;
+	read_user_input(rx_char_ptr);
+	xatoi ( &rx_char_ptr, &subaddr);
+	dp_display_value(subaddr,HEX);
+
+
+	 if  ((subaddr > 0 ) && (subaddr < 32))
+		{
+		   return subaddr;  //display_brt_data(CORE1553BRT_0 ,subaddr);
+
+		}
+	   else
+	   {
+	      dp_display_text("\r\n\Invaid input !!!!! Enter the Sub Address # ( 1 to 31)to display Data: ");
+	      return 0;
+
+		}
+}
+
+
+/* This function will get the Input from Terminal
+ * This function can be used to get teh SUb Adress value
+ * or RTADDR value
+ *
+ *  and check for valid input for the RTADDR */
+
+uint8_t  get_data_input ( void) {
+	uint8_t  data_in;
+
+	rx_char_ptr = rx_char;
+	read_user_input(rx_char_ptr);
+	xatoi ( &rx_char_ptr, &data_in);
+	dp_display_value(data_in,HEX);
+
+   return data_in;  //display_brt_data(CORE1553BRT_0 ,subaddr);
+
+
+}
+
+
+
+
+
+/* This Function displays the Data at the specified memory Location *
+ * You can modify the data if you wish */
+
+
+void modify_mem_data (uint16_t addr,uint8_t ByteCount){
+
+ uint16_t   mem_addr,mem_data;
+
+ uint8_t recv_char=0;
+ uint8_t size, index = 0;
+ uint16_t input_data;
+
+ uint8_t   i=0;
+ uint8_t   m=0;
+ uint8_t   key;
+
+ /* Clear the buffer before getting any new data */
+ for(index = 0; index < 10; index++)
+			{
+				rx_char[index] = '0';
+			}
+index = 0;
+
+  mem_addr = addr;
+
+ dp_display_text("Enter New data(0x10fe,1234, 0b1010110)\r\n");
+
+ for ( i=0; i <= ByteCount ;i++) {
+	dp_display_text("\r\n");
+	dp_display_value(i,DEC);
+	dp_display_text("\t");
+	dp_display_value(mem_addr,HEX);
+	dp_display_text(":");
+	mem_data= HW_get_16bit_reg(mem_addr);
+	dp_display_value(mem_data,HEX);
+	dp_display_text("->");
+	key = get_key_selection();
+	if ( key == CHAR_ESC){  // ESC key == exit from writing
+		return;
+	}else if ( key == CHAR_LINE_FEED) // Return key, move to next address
+	{
+	  mem_addr = mem_addr + 1;
+	} else
+
+	{
+		rx_char[0] = key;  // put the previosly rxvd character to buffer;
+
+		index = 1;
+					while(recv_char != CHAR_LINE_FEED)  //'\n'
+					{
+					  size = UART_get_rx(&g_stdio_uart, &recv_char,1);
+					  if(size > 0)
+					  {
+
+						  rx_char[index] = recv_char;
+						  UART_send (&g_stdio_uart, (uint8_t *)&recv_char,sizeof(recv_char));
+						  index++;
+						  size = 0; // clear the rcvd flag
+					  }
+					}
+
+					rx_char_ptr = rx_char;
+					xatoi ( &rx_char_ptr, &input_data);
+					HW_set_16bit_reg(mem_addr,input_data);
+					mem_addr = mem_addr + 1;
+					recv_char = '-';  // DUMMY VALUE TO CHANGE THE DETECTION OF NEW LINE CHAR
+
+	}
+
+
+	}
+
+ }
+
+
+void modify_rt_address(uint16_t brt_base_addr,  uint8_t rtaddr) {
+
+	uint16_t   rt_ctrl_status_reg, rt_addr;
+	uint8_t  parity;
+	parity =  getParity(rtaddr); // get parity of the adress;
+
+
+	uint16_t test1, test2, test3, test4, test5,rt_ctrl_status_reg_new;
+
+	test1 = rtaddr; //0x05;
+
+	test2 =   (test1 << 1);
+	test3 =   (test1 << 2);
+	test4 =   (test1 << 8);
+	//test5 =   (test1 << 8);
+
+
+	test5 = (rtaddr << 8);
+	rt_addr =  (rtaddr << 8);  // move the rtaddr to bit position (12 to 8)
+
+	//rt_addr = (0x1f00 & (rtaddr));
+
+	//rt_addr = (rt_addr & 0xff00); // shift the rtaddr to 12th bit position
+	rt_ctrl_status_reg = HW_get_16bit_reg( brt_base_addr + BRT_CONTROL_REG);
+
+	rt_ctrl_status_reg  = rt_ctrl_status_reg | rt_addr;  // replace the rtaddress in the contrl register
+    if ( parity) {
+    	   rt_ctrl_status_reg_new   = (0xDFFF & rt_addr);// if already odd parity, clear the parity bit ( position 13)
+    	            	                                             //at position 13
+                } else
+    	        {
+
+    	        	rt_ctrl_status_reg_new = (0x2000 | rt_addr);  // if even parity, make it odd by setting the parity bit
+    	        	                                              // at bit position 13;
+
+    	        }
+
+
+    // finally  clear the RTLOCK to accept software RTADDR value ( clear bit 15 of the register
+
+             rt_ctrl_status_reg_new  = (rt_ctrl_status_reg_new & 0x7fff); // clear lock bit
+             rt_ctrl_status_reg      = (rt_ctrl_status_reg_new & 0x00ff); // mask the lsb bits and clear the msb bit
+                                                                          //for adding updated values
+
+             rt_ctrl_status_reg      = (rt_ctrl_status_reg | rt_ctrl_status_reg_new); // update the rtaddr,ock bits to the register
+
+
+			HW_set_16bit_reg(brt_base_addr + BRT_CONTROL_REG ,rt_ctrl_status_reg);
+
+
+
+
+}
+

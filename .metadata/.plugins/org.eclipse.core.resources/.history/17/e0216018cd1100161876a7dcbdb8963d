@@ -1,0 +1,185 @@
+//**********************************************************************
+// This code was created by SoC Solutions and is free for use with     *
+// Actel products.  For support e-mail support@socsolutions.com.       *
+//**********************************************************************
+
+#include "hal.h"
+#include "platform.h"
+#include "brt.h"
+#include "socDefs.h"
+
+
+
+
+/*
+ only for testing. initializing the data to be send to BC
+  Initialise the TX buffer space before TXing to BC... here the memory is filled with some
+   data so taht it can be send back to BC when requested
+
+*/
+
+void init_rt_tx_buff(unsigned int  baseAddr , unsigned char subAddr, unsigned short initval  ) {
+
+unsigned char i ;
+unsigned int * rt_tx_buff_ptr    = ((unsigned int *) ( baseAddr  + BRT_TX_BUFF_BASE + ( BRT_BUFF_SIZE * (subAddr-1) )));
+
+
+	for ( i =0; i < BRT_BUFF_ADDR_SIZE ; i++) {
+		*(rt_tx_buff_ptr + i) = initval++;
+	}
+	
+}
+
+
+/*
+ Initialise the RX buffer space before tx/rx from BC...
+ here the memory is cleared so that fresh contents from BC can be strored
+ usage:
+ baseAddr: RT_BASE_ADDR
+ SA      : Subaddr No , 1 to 31
+
+*/
+
+void init_rt_rx_buff(unsigned int  baseAddr, unsigned char subAddr , unsigned short initval  ) {
+
+unsigned char i ;
+unsigned int * rt_tx_buff_ptr    = ((unsigned int *) ( baseAddr  + BRT_RX_BUFF_BASE + ( BRT_BUFF_SIZE * (subAddr -1) )));
+
+
+	for ( i =0; i < BRT_BUFF_ADDR_SIZE ; i++) {
+		*(rt_tx_buff_ptr + i) = initval;  // basically clearing the contents of the memory
+	}
+	
+}
+
+
+
+/* read the status word for RX for the particular SA  */
+
+unsigned short read_status_word_rx ( unsigned int baseAddr, unsigned char subAddr) {
+
+	unsigned short status;
+
+	status = HW_get_16bit_reg((baseAddr + BRT_RX_STATUS_WRD_BASE + (subAddr * 4)));
+	return status;
+
+
+}
+
+
+
+
+/* read the status word for TX for the particular SA  */
+
+unsigned short read_status_word_tx ( unsigned int baseAddr, unsigned char subAddr) {
+
+	unsigned short status;
+
+	status = HW_get_16bit_reg((baseAddr + BRT_TX_STATUS_WRD_BASE + (subAddr * 4)));
+	return status;
+
+}
+
+
+/* iNITIALISE THE RT memory locations,
+ *
+ * base_addr:  RT_BASE ADDR
+ *
+ */
+
+void brt_init(unsigned int baseAaddr)
+ {
+ init_rt_tx_buff(baseAaddr , 1, 0x1234);	    // SA =1 , init value : 0xA234
+ init_rt_tx_buff(baseAaddr , 2, 0xABCD);		// SA =2
+ init_rt_tx_buff(baseAaddr , 3, 0x1000);		// SA = 3
+
+ init_rt_tx_buff(baseAaddr , 24, 0x2400);		// SA = 3
+ init_rt_tx_buff(baseAaddr , 25, 0x2500);		// SA = 3
+
+ init_rt_rx_buff(baseAaddr , 1, 0x0000);		  // clear the location for SA 1- 4
+ init_rt_rx_buff(baseAaddr , 2, 0x0000);
+ init_rt_rx_buff(baseAaddr , 3, 0x0000);
+ init_rt_rx_buff(baseAaddr , 4, 0x0000);
+
+ init_rt_rx_buff(baseAaddr , 5, 0x0000);		  // clear the location for SA 1- 4
+ init_rt_rx_buff(baseAaddr , 6, 0x0000);
+ init_rt_rx_buff(baseAaddr , 7, 0x0000);
+ init_rt_rx_buff(baseAaddr , 8, 0x0000);
+
+ init_rt_rx_buff(baseAaddr , 9, 0x0000);		  // clear the location for SA 1- 4
+ init_rt_rx_buff(baseAaddr , 10, 0x0000);
+ init_rt_rx_buff(baseAaddr , 11, 0x0000);
+ init_rt_rx_buff(baseAaddr , 12, 0x0000);
+ init_rt_rx_buff(baseAaddr , 25, 0x0000);
+
+
+
+ //PUT_UINT16(baseAaddr + BRT_CONTROL_REG , 0x0000) ;  // set teh RT address as 0x01 for testing
+ //PUT_UINT16(baseAaddr + BRT_CONTROL_REG , 0x0500) ; // set the RT address to RT5
+
+
+
+
+
+ }
+
+
+void modify_rt_address(uint16_t brt_base_addr,  uint8_t rtaddr) {
+
+	uint16_t   rt_ctrl_status_reg, rt_addr;
+	uint8_t  parity;
+	parity =  getParity(rtaddr); // get parity of the adress;
+
+
+	uint16_t test1, test2, test3, test4, test5,rt_ctrl_status_reg_new;
+
+	test1 = rtaddr; //0x05;
+
+	test2 =   (test1 << 1);
+	test3 =   (test1 << 2);
+	test4 =   (test1 << 8);
+	//test5 =   (test1 << 8);
+
+
+	test5 = (rtaddr << 8);
+	rt_addr =  (rtaddr << 8);  // move the rtaddr to bit position (12 to 8)
+
+	//rt_addr = (0x1f00 & (rtaddr));
+
+	//rt_addr = (rt_addr & 0xff00); // shift the rtaddr to 12th bit position
+	rt_ctrl_status_reg = HW_get_16bit_reg( brt_base_addr + BRT_CONTROL_REG);
+
+	rt_ctrl_status_reg  = rt_ctrl_status_reg | rt_addr;  // replace the rtaddress in the contrl register
+    if ( parity) {
+    	          rt_ctrl_status_reg_new   = (0xDFFF & rt_addr);// if already odd parity, clear the parity bit ( position 13)
+    	            	                                             //at position 13
+    	        } else
+    	        {
+
+    	        	rt_ctrl_status_reg_new = (0x2000 | rt_addr);  // if even parity, make it odd by setting the parity bit
+    	        	                                              // at bit position 13;
+
+    	        }
+
+
+    // finally  clear the RTLOCK to accept software RTADDR value ( clear bit 15 of the register
+
+             rt_ctrl_status_reg_new  = (rt_ctrl_status_reg_new & 0x7fff); // clear lock bit
+             rt_ctrl_status_reg      = (rt_ctrl_status_reg_new & 0x00ff); // mask the lsb bits and clear the msb bit
+                                                                          //for adding updated values
+
+             rt_ctrl_status_reg      = (rt_ctrl_status_reg | rt_ctrl_status_reg_new); // update the rtaddr,ock bits to the register
+
+
+			HW_set_16bit_reg(brt_base_addr + BRT_CONTROL_REG ,rt_ctrl_status_reg);
+
+
+
+
+}
+
+
+
+
+
+

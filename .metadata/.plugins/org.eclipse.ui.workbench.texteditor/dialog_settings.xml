@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="get_16bit" key="selection"/>
+		<item value="Key" key="selection"/>
 		<list key="findhistory">
+			<item value="key"/>
+			<item value="last_sub_address"/>
 			<item value="get_16bit"/>
 			<item value="print_rt_data"/>
 			<item value=" memory_address"/>
 			<item value="recv_char"/>
 			<item value="rx_char"/>
 			<item value="g_uart0"/>
-			<item value="int_to_dec_int"/>
-			<item value="Send"/>
 		</list>
 		<list key="replacehistory">
 			<item value="mem_addr"/>
